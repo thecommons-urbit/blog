@@ -1,0 +1,11 @@
+:~
+  title+'%blog'
+  info+'a tool for publishing'
+  color+0x57.3c7c
+  version+[0 1 0]
+  website+'blog'
+  license+'MIT'
+  image+''
+  base+'blog'
+  glob-ames+[~hanrut-sillet-dachus-tiprel 0v2.vp0lt.t42j7.7vmf9.i756h.9n3de]
+==
