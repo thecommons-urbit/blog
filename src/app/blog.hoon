@@ -235,6 +235,9 @@
       %scry            [%s '%scry']
       %name            [%s '%name']
       %four-oh-four    [%s '%four-oh-four']
+      ::  XX minimum-viable eauth compatibilty; maybe do more here?
+      %eauth           [%s '%eauth']
+      %host            [%s '%host']
     ==
   ==
 ::
