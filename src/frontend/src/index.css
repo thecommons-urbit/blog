@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+
+.wmde-markdown {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.wmde-markdown li {
+  list-style: disc;
+}
+
+.w-md-editor {
+  box-shadow: none;
+}
+
+.w-md-editor-toolbar {
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.w-md-editor-preview {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.w-md-editor-bar {
+  display:none;
+}
