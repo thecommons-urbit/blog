@@ -1,7 +1,7 @@
 #!/bin/bash
 # ==============================================================================
 #
-# build - Build the frontend and add necessary metadata
+# build - Build the frontend and add necessary metadata.
 #
 # ==============================================================================
 
@@ -23,14 +23,14 @@ usage() {
   echo -e ""
   echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-s SHIP_NAME]"
   echo -e ""
-  echo -e "Build the app frontend and the desk files required to install it in Grid"
+  echo -e "Build the app frontend and the desk files required to install it on an Urbit ship"
   echo -e ""
   echo -e "Options:"
   echo -e "  -h\tPrint script usage info"
   echo -e "  -k\tSet alternative kelvin version to use (default: $DEFAULT_KELVIN)"
   # XX add eslint?
   # echo -e "  -l\tFix formatting errors raised by eslint"
-  echo -e "  -s\tSet ship name to use (default: ~$DEFAULT_DISTRIBUTOR)"
+  echo -e "  -s\tSet name of the distributor ship"
   echo -e ""
   exit $1
 }
@@ -118,6 +118,8 @@ cd "$ROOT_DIR/src/frontend"
 npm run build
 mv "$ROOT_DIR/src/frontend/dist" "$ROOT_DIR/build/frontend/"
 
+# Copy app backend
+cp -r "$ROOT_DIR/src/backend"/* "$ROOT_DIR/build/desk/"
 
 # Build desk.docket-0
 docket
