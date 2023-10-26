@@ -32,14 +32,23 @@
 =|  state-3
 =*  state  -
 |_  =bowl:gall
-+*  this      .
-    def       ~(. (default-agent this %.n) bowl)
-    du-paths  =/  du  (du blog-paths ,[%paths ~])
-              (du pub-paths bowl -:!>(*result:du))
++*  this  .
+    def   ~(. (default-agent this %.n) bowl)
+    du-paths
+    =/  du
+      (du blog-paths ,[%paths ~])
+    (du pub-paths bowl -:!>(*result:du))
+::
 ++  on-init
   ^-  (quip card _this)
-  `this(themes (~(gas by themes) [%default default-theme:blog-lib]~))
-++  on-save  !>(state)
+  :-  ~
+  %=  this
+    themes  (~(gas by themes) ~[[%default default-theme:blog-lib]])
+  ==
+::
+++  on-save
+  !>(state)
+::
 ++  on-load
   |=  =vase
   ^-  (quip card _this)
@@ -189,57 +198,109 @@
 ++  on-peek
   |=  =path
   ^-  (unit (unit cage))
-  ?+    path  ~&("unexpected scry into {<dap.bowl>} on path {<path>}" ~)
-  ::
-      [%x %md ^]       ``blog+!>(+<:(~(got by files) t.t.path)) :: TODO bad practice
-      [%x %html ^]     ``blog+!>(-:(~(got by files) t.t.path))
-      [%x %draft ^]    ``blog+!>((~(got by drafts) t.t.path))
-      [%x %theme @ ~]  ``blog+!>((~(got by themes) i.t.t.path))
-      [%x %uri ~]      ``blog+!>(uri:rock:(~(got by read:du-paths) [%paths ~]))
-  ::
+  ?+  path  ~&("unexpected scry into {<dap.bowl>} on path {<path>}" ~)
+    ::
+    ::  get .md version of a post
+    ::  XX handle null case
+    ::  assuming you have a post at path /test
+    ::  .^(cord %gx /=blog=/md/test/noun)
+      [%x %md ^]
+        %-  some
+        %-  some
+        :-  %blog
+        ::  XX lark notation here is bad practice
+        !>(+<:(~(got by files) t.t.path))
+    ::
+    ::  get .html version of a post
+    ::  XX handle null case
+    ::  assuming you have a post at path /test
+    ::  .^(cord %gx /=blog=/html/test/noun)
+      [%x %html ^]
+        %-  some
+        %-  some
+        :-  %blog
+        !>(-:(~(got by files) t.t.path))
+    ::
+    ::  get text of a draft post
+    ::  XX handle null case
+    ::  assuming you have a draft at /new-draft
+    ::  .^(cord %gx /=blog=/draft/new-draft/noun)
+      [%x %draft ^]
+        %-  some
+        %-  some
+        :-  %blog
+        !>((~(got by drafts) t.t.path))
+    ::
+    ::  get theme by path
+    ::  .^(cord %gx /=blog=/theme/default/noun)
+      [%x %theme @ ~]
+        %-  some
+        %-  some
+        :-  %blog
+        !>((~(got by themes) i.t.t.path))
+    ::
+    ::  get uri
+    ::  XX handle null case
+    ::  .^(cord %gx /=blog=/uri/noun)
+      [%x %uri ~]
+        %-  some
+        %-  some
+        :-  %blog
+        !>(uri:rock:(~(got by read:du-paths) [%paths ~]))
+    ::
+    ::  get published posts
+    ::  .^(json %gx /=blog=/pages/noun)
       [%x %pages ~]
-    =;  pages  ``json+!>([%a pages])
-    (turn ~(tap by files) |=([=^path *] (path:enjs:format path)))
-  ::
+        =;  pages  ``json+!>([%a pages])
+        (turn ~(tap by files) |=([=^path *] (path:enjs:format path)))
+    ::
+    ::  get drafts
+    ::  .^(json %gx /=blog=/drafts/noun)
       [%x %drafts ~]
-    =;  names  ``json+!>([%a names])
-    (turn ~(tap by drafts) |=([=^path *] (path:enjs:format path)))
-  ::
+        =;  names  ``json+!>([%a names])
+        (turn ~(tap by drafts) |=([=^path *] (path:enjs:format path)))
+    ::
+    ::  get themes
+    ::  .^(json %gx /=blog=/themes/noun)
       [%x %themes ~]
-    =;  themes  ``json+!>([%a themes])
-    (turn ~(tap by themes) |=([t=@tas *] s+t))
-  ::
+        =;  themes  ``json+!>([%a themes])
+        (turn ~(tap by themes) |=([t=@tas *] s+t))
+    ::
+    ::  get name of active theme for a post
+    ::  .^(json %gx /=blog=/active-theme/test/noun)
       [%x %active-theme ^]
-    =;  theme  ``json+!>(s+theme)
-    theme:(~(got by files) t.t.path)
-  ::
+        =;  theme  ``json+!>(s+theme)
+        theme:(~(got by files) t.t.path)
+    ::
+    ::  XX document
+    ::  .^(json %gx /=blog=/all-bindings/noun)
       [%x %all-bindings ~]
-    =;  the-thing  ``json+!>(the-thing)
-    %-  pairs:enjs:format
-    %+  weld
-      %+  turn  ~(tap by files)
-      |=([=^path *] (spat path)^s+'app: %blog')
-    %+  turn
-      .^  (list [binding:eyre * action:eyre])  %e
-          /(scot %p our.bowl)/bindings/(scot %da now.bowl)
-      ==
-    |=  [=binding:eyre * =action:eyre]
-    ^-  [@t json]
-    :-  (spat path.binding)
-    ?-  -.action
-      %gen             [%s (crip "desk: {<desk.generator.action>}")]
-      %app             [%s (crip "app: {<app.action>}")]
-      %authentication  [%s '%authentication']
-      %logout          [%s '%logout']
-      %channel         [%s '%channel']
-      %scry            [%s '%scry']
-      %name            [%s '%name']
-      %four-oh-four    [%s '%four-oh-four']
-      ::  XX minimum-viable eauth compatibilty; maybe do more here?
-      %eauth           [%s '%eauth']
-      %host            [%s '%host']
-    ==
-  ==
+        =;  the-thing  ``json+!>(the-thing)
+        %-  pairs:enjs:format
+        %+  weld
+          %+  turn  ~(tap by files)
+          |=([=^path *] (spat path)^s+'app: %blog')
+        %+  turn
+          .^  (list [binding:eyre * action:eyre])  %e
+              /(scot %p our.bowl)/bindings/(scot %da now.bowl)
+          ==
+        |=  [=binding:eyre * =action:eyre]
+        ^-  [@t json]
+        :-  (spat path.binding)
+        ?-  -.action
+          %gen             [%s (crip "desk: {<desk.generator.action>}")]
+          %app             [%s (crip "app: {<app.action>}")]
+          %authentication  [%s '%authentication']
+          %logout          [%s '%logout']
+          %channel         [%s '%channel']
+          %scry            [%s '%scry']
+          %name            [%s '%name']
+          %four-oh-four    [%s '%four-oh-four']
+          ::  XX minimum-viable eauth compatibilty; maybe do more here?
+          %eauth           [%s '%eauth']
+          %host            [%s '%host']
+        ==
+  ==  ::  end of path branches
 ::
 ++  on-arvo   on-arvo:def
 ++  on-agent  on-agent:def
