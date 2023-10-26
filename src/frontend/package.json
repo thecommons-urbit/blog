@@ -28,7 +28,7 @@
     "@types/node": "^18.14.2",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@urbit/vite-plugin-urbit": "github:morelazers/vite-plugin-urbit#feat/vite3",
+    "@urbit/vite-plugin-urbit": "^1.0.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
