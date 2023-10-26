@@ -43,9 +43,9 @@ docket() {
 
   echo ":~" > $DOCKET_FILE
   echo "  title+'Common Blog'" >> $DOCKET_FILE
-  echo "  info+'A tool for publishing.'" >> $DOCKET_FILE
-  echo "  color+0x57.3c7c" >> $DOCKET_FILE
-  echo "  image+''" >> $DOCKET_FILE
+  echo "  info+'A free open-source tool for publishing.'" >> $DOCKET_FILE
+  echo "  color+0xef.f0f4" >> $DOCKET_FILE
+  echo "  image+'https://github.com/thecommons-urbit/blog/blob/main/assets/tile.png?raw=true'" >> $DOCKET_FILE
   echo "  base+'blog'" >> $DOCKET_FILE
   echo "  version+[$VERSION_MAJOR $VERSION_MINOR $VERSION_PATCH]" >> $DOCKET_FILE
   echo "  license+'MIT'" >> $DOCKET_FILE
