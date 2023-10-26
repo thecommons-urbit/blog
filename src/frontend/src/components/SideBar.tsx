@@ -9,7 +9,6 @@ import {
   RssIcon,
 } from '@heroicons/react/24/outline'
 import { useStore } from '../state/base'
-import Logo from './Logo'
 import { ConfirmDeleteDraft, ConfirmUnpublish } from './Modal'
 import { api } from '../state/api'
 
@@ -232,11 +231,6 @@ export default function SideBar() {
 
   return (
     <div className='h-full p-4 pr-0'>
-      <div className='flex flex-row items-center justify-between w-full pb-4'>
-        <Link to='/'>
-          <Logo />
-        </Link>
-      </div>
       <ul className='pb-6'>
         <label className='block font-bold mb-3 font-sans font-extrabold'>
           Published
