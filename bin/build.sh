@@ -128,7 +128,7 @@ docket
 echo ":~  %blog  ==" > $DESK_DIR/desk.bill
 
 # Build desk.ship
-echo "$SHIP" > $DESK_DIR/desk.ship
+echo "~$SHIP" > $DESK_DIR/desk.ship
 
 # Build sys.kelvin
 echo "[%zuse $KELVIN]" > $DESK_DIR/sys.kelvin
