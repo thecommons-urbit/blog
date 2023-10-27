@@ -122,6 +122,7 @@
       %blog-action
     =+  !<(act=action:blog vase)
     ?>  =(src.bowl our.bowl)
+    ~&  >>  "attempting {<mark>} poke: {<act>}"
     ?-    -.act
         %publish
       =^  cards  pub-paths  (give:du-paths [%paths ~] [%post path.act])
@@ -179,25 +180,30 @@
           [%pass /info %arvo %c %info %blog %& soba-css]
       ==
     ::
-      %save-draft    `this(drafts (~(put by drafts) [path md]:act))
-      %delete-draft  `this(drafts (~(del by drafts) path.act))
-      %save-theme    `this(themes (~(put by themes) [theme css]:act))
-      %delete-theme  `this(themes (~(del by themes) theme.act))
+      %save-draft
+      `this(drafts (~(put by drafts) [path md]:act))
+      %delete-draft
+      `this(drafts (~(del by drafts) path.act))
+      %save-theme
+      `this(themes (~(put by themes) [theme css]:act))
+      %delete-theme
+      `this(themes (~(del by themes) theme.act))
     ::
         %update-uri
       =^  cards  pub-paths  (give:du-paths [%paths ~] [%uri uri.act])
       [cards this]
-    ==
+    ==  ::  end of %blog-action pokes
     ::
         %sss-to-pub
       =/  msg  !<(into:du-paths (fled vase))
       =^  cards  pub-paths  (apply:du-paths msg)
       [cards this]
-  ==
+  ==  ::  end of pokes
 ::
 ++  on-peek
   |=  =path
   ^-  (unit (unit cage))
+  ~&  >>  "attempting scry on {<path>}"
   ?+  path  ~&("unexpected scry into {<dap.bowl>} on path {<path>}" ~)
     ::
     ::  get .md version of a post

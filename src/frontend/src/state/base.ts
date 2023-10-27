@@ -50,6 +50,34 @@ export const useStore = create<State>()((set) => ({
     let page  = await api.scry({ app : 'blog', path: `/md${s}`})
     set({ markdown : page })
   },
+  // XX i think the real problem with "the scries" is
+  //    that this isn't saving properly; more scrutiny here
+  //    ALSO: test that pokes go thru here and on ~bonbud-macryg - DONE
+  //    ALSO: try importing ~bonbud-macryg's posts/drafts/themes into a fakeship
+  //
+  // POKES FROM FRONTEND
+  // +$  action
+  // $%  [%publish =path html=@t md=@t theme=@tas] - WORKS ON BONBUD / ???
+  //     [%unpublish =path] - WORKS ON BONBUD / ???
+  //     [%export css=?] - ??? / ???
+  //     [%save-draft =path md=@t] - WORKS ON BONBUD / NOT ON FAKESHIP
+  //     [%delete-draft =path] - WORKS ON BONBUD / NOT ON FAKESHIP
+  //     [%save-theme theme=@tas css=@t] - WORKS ON BONBUD / ???
+  //     [%delete-theme theme=@tas] - WORKS ON BONBUD / ???
+  //     [%update-uri uri=@t] - ??? / ???
+  // ==
+  //
+  // POKES FROM DOJO
+  // +$  action
+  // $%  [%publish =path html=@t md=@t theme=@tas] - WORKS ON BONBUD / ???
+  //     [%unpublish =path] - WORKS ON BONBUD / ???
+  //     [%export css=?] - ??? / ???
+  //     [%save-draft =path md=@t] - WORKS ON BONBUD / WORKS ON FAKESHIP
+  //     [%delete-draft =path] - WORKS ON BONBUD / ???
+  //     [%save-theme theme=@tas css=@t] - WORKS ON BONBUD / WORKS ON FAKESHIP
+  //     [%delete-theme theme=@tas] - WORKS ON BONBUD / WORKS ON FAKESHIP
+  //     [%update-uri uri=@t] - ??? / ???
+  // ==
   saveDraft: async (fileName: string, markdown: string) => {
     await api.poke({
       app: 'blog',

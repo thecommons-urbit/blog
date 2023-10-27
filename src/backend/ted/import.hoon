@@ -62,6 +62,9 @@
     ==
   ==
 =/  thm-map  ;;  (map path @tas)
+  ::  XX is this expecting a folder called 'meta' in the export?
+  ::       there wasn't one when i exported files from ~bonbud-macryg,
+  ::       but that might be because the export process crashed my ship
   .^(noun %cx /(scot %p our)/blog/(scot %da now)/import/published/meta/noun)
 =/  act  |=(=vase [%pass /poke %agent [our %blog] %poke %blog-action vase])
 ;<  ~  bind:m
