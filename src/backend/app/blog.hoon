@@ -122,7 +122,7 @@
       %blog-action
     =+  !<(act=action:blog vase)
     ?>  =(src.bowl our.bowl)
-    ~&  >>  "attempting {<mark>} poke: {<act>}"
+    ::  ~&  >>  "attempting {<mark>} poke: {<act>}"
     ?-    -.act
         %publish
       =^  cards  pub-paths  (give:du-paths [%paths ~] [%post path.act])
@@ -203,7 +203,7 @@
 ++  on-peek
   |=  =path
   ^-  (unit (unit cage))
-  ~&  >>  "attempting scry on {<path>}"
+  ::  ~&  >>  "attempting scry on {<path>}"
   ?+  path  ~&("unexpected scry into {<dap.bowl>} on path {<path>}" ~)
     ::
     ::  get .md version of a post
