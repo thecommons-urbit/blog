@@ -1,3 +1,5 @@
 /build
 /src/frontend/dist
 /src/frontend/node_modules
+/src/frontend/.env.local
+/src/frontend/.env.development

@@ -1,4 +1,6 @@
 |%
+::
+::  XX should add a +default-text with the intro / tutorial blog post
 ++  default-theme
   ^-  @t
   '''
