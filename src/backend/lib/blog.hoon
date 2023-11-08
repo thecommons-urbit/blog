@@ -35,7 +35,7 @@
   %-  crip
   """
   <head>
-  <title>{(trip `@t`&1:title)}</title>
+  <title>{(trip (rear title))}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
   """
 ::
