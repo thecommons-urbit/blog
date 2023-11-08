@@ -29,6 +29,16 @@
   ^-  @t
   (cat 3 (cat 3 '<style>' css) '</style>')
 ::
+++  add-header
+  |=  title=path
+  ^-  @t
+  %-  crip
+  """
+  <head>
+  <title>{(trip `@t`&1:title)}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+  """
+::
 ++  http-response-cards
   |=  [id=@tas hed=response-header:http data=(unit octs)]
   ^-  (list card:agent:gall)
