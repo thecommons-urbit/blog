@@ -7,6 +7,10 @@ import {
 import { api } from '../state/api'
 import { useStore } from '../state/base'
 import { Publish } from './Modal'
+//
+// TODO rethink icons
+//      e.g. there shouldn't be an RSS icon here,
+//      %blog does not currently support RSS
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -53,6 +57,8 @@ export default function BottomBar({
     setFileName('/' + document.location.pathname.split('/').slice(4).join('/')) // TODO ugly
   }, [document.location.pathname])
 
+  // TODO don't allow users to input bad filenames
+  // TODO just add a number to the end of duplicate filenames
   useEffect(() => {
     if (fileName.charAt(fileName.length - 1) === '/') {
       setDisabled(true)
@@ -81,12 +87,17 @@ export default function BottomBar({
   useEffect(() => {
     if (themes.length > 0 && activeTheme === '') setActiveTheme(themes[0])
     async function getTheme() {
+      //
+      // TODO explicitly handle scry to /theme
+      //      "unexpected scry into %blog on path [i=~.x t=/theme]"
       const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` })
       setPreviewCss(css)
     }
     getTheme()
   }, [activeTheme, themes])
 
+  // TODO don't allow users to input bad filenames
+  // TODO just add a number to the end of duplicate filenames
   useEffect(() => {
     if (fileName.charAt(fileName.length - 1) === '/') {
       setDisabled(true)
@@ -144,6 +155,7 @@ export default function BottomBar({
 
   return (
     <div className='w-full h-full grid gap-x-4 grid-cols-12 items-start'>
+      {/* filename input */}
       <div className='col-span-4'>
         <code>
           <input
@@ -159,6 +171,7 @@ export default function BottomBar({
           </p>
         </code>
       </div>
+      {/* theme select */}
       <div className='col-span-3'>
         <select
           className='w-full rounded border-none focus:outline-none'
@@ -175,6 +188,7 @@ export default function BottomBar({
           <code>%theme</code>
         </p>
       </div>
+      {/* save draft */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
         disabled={!fileName || disabled}
@@ -185,6 +199,7 @@ export default function BottomBar({
         </div>
         Save Draft
       </button>
+      {/* publish */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
         disabled={!fileName || disabled}
@@ -196,6 +211,7 @@ export default function BottomBar({
         Publish
       </button>
       <div className='col-span-1 flex flex-row h-full items-center justify-center'>
+        {/* fullscreen editor */}
         <button
           className='flex-1 flex items-start justify-center rounded w-full h-full text-blue-500 hover:text-blue-700'
           onClick={() => setIsFocusMode(!isFocusMode)}
@@ -210,6 +226,7 @@ export default function BottomBar({
             </div>
           </div>
         </button>
+        {/* show/hide preview */}
         <button
           className='flex-1 flex items-start justify-center rounded w-full h-full text-blue-500 hover:text-blue-700'
           onClick={() => setShowPreview(!showPreview)}

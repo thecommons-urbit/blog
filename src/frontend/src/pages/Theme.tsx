@@ -67,18 +67,21 @@ export default function Theme() {
         </div>
       </div>
       <div className='flex gap-x-4 col-span-2'>
+        {/* theme filename input */}
         <input
           className='flex-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-          value={theme}
+          value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder='theme-name'
         />
+        {/* delete theme */}
         <button
           className='flex-1 flex items-center justify-center bg-darkgray text-white p-2 rounded w-full disabled:opacity-50'
           onClick={() => setShowDeleteThemeModal(true)}
         >
           Delete Theme
         </button>
+        {/* save theme */}
         <button
           className='flex-1 flex items-center justify-center bg-darkgray text-white p-2 rounded w-full disabled:opacity-50'
           onClick={handleSaveTheme}
