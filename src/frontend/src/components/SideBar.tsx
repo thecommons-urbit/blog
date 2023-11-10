@@ -230,7 +230,7 @@ export default function SideBar() {
   }
 
   return (
-    <div className='h-full p-4 pr-0'>
+    <div className='h-full p-4 pr-0 pt-0'>
       <ul className='pb-6'>
         <label className='block font-bold mb-3 font-sans font-extrabold'>
           Published
