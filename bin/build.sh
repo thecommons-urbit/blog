@@ -43,7 +43,7 @@ docket() {
 
   echo ":~" > $DOCKET_FILE
   echo "  title+'Common Blog'" >> $DOCKET_FILE
-  echo "  info+'A free open-source tool for publishing.'" >> $DOCKET_FILE
+  echo "  info+'Self-hosted writing and publishing.'" >> $DOCKET_FILE
   echo "  color+0xef.f0f4" >> $DOCKET_FILE
   echo "  image+'https://github.com/thecommons-urbit/blog/blob/main/assets/tile.png?raw=true'" >> $DOCKET_FILE
   echo "  base+'blog'" >> $DOCKET_FILE
