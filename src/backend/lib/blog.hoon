@@ -4,23 +4,29 @@
 ++  default-theme
   ^-  @t
   '''
-  h1, h2, h3, h4, h5, h6 {
-    color : black;
-    text-align: center;
+  body {
+    margin: 5vh 5vw 5vh 5vw;
+    max-width: 650px;
+    font-size: 19px;
+    text-align: left-align;
+    background-color: #fefefe;
   }
-  p {
-    text-align: justify;
+
+  h1, h2, h3, h4, h5, h6, p {
+    color: #010101;
   }
+
+  code {
+    color: #010101;
+    background-color: #e5e5e5;
+    font-size: 16px;
+  }
+
   img {
     margin: auto;
-    max-height: 300px;
+    max-height: 500px;
+    max-width: 650px;
     display: block;
-  }
-  body {
-    margin : 7vw;
-    font-size : 3vh;
-    color: #393939;
-    background-color: white;
   }
   '''
 ::

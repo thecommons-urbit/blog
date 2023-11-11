@@ -5,13 +5,13 @@ export const defaultText =
 
 Common Blog is a free open-source tool for self-hosted writing and publishing.
 
-Click the \`<\` arrow in the bottom-right to see the preview for your posts.
+Click the arrow in the bottom-right to see the preview for your posts.
 
 Use [markdown](https://www.markdowntutorial.com/) to write your post. To style a post, add a CSS theme in the sidebar and select it from the menu below this editor.
 
-To bind a post to a custom URL, just type that URL below and click \`Publish\`. Your post will instantly be viewable at that URL. For example, if your ship's domain is \`https://sampel-palnet.urbit.org\`, and you type in \`/blog/1\`, you will be able to see your blog at \`https://sampel-palnet.urbit.org/blog/1\`.
+To bind a post to a custom URL, just type that URL below and click "Publish". Your post will instantly be viewable at that URL. For example, if your ship's domain is \`https://sampel-palnet.urbit.org\`, and you type in \`/blog/1\`, you will be able to see your blog at \`https://sampel-palnet.urbit.org/blog/1\`.
 
-Try it now and publish this post from your personal server!
+Try it now to publish this post from your personal server!
 
 **Common Blog is a fork of ~dachus-tiprel's %blog, managed by [The Commons](https://github.com/thecommons-urbit).**
 
