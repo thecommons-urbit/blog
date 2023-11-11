@@ -88,11 +88,10 @@ export default function BottomBar({
   useEffect(() => {
     if (themes.length > 0 && activeTheme === '') setActiveTheme(themes[0])
     async function getTheme() {
-      //
-      // TODO explicitly handle scry to /theme
-      //      "unexpected scry into %blog on path [i=~.x t=/theme]"
-      const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` })
-      setPreviewCss(css)
+      if (activeTheme !== '') {
+        const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` });
+        setPreviewCss(css);
+      }
     }
     getTheme()
   }, [activeTheme, themes])

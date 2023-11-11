@@ -41,11 +41,6 @@ export const useStore = create<State>()((set) => ({
     let themes      = await api.scry({ app: 'blog', path: '/themes'})
     let allBindings = await api.scry({ app: 'blog', path: '/all-bindings'})
 
-    console.log('SCRY: pages: ', pages)
-    console.log('SCRY: drafts: ', drafts)
-    console.log('SCRY: themes: ', themes)
-    console.log('SCRY: allBindings: ', allBindings)
-
     set({ drafts, pages, allBindings, themes })
   },
   getDraft: async (s) => { // TODO remove or integrate
@@ -57,7 +52,6 @@ export const useStore = create<State>()((set) => ({
     set({ markdown : page })
   },
   saveDraft: async (fileName: string, markdown: string) => {
-    console.log('POKE: saveDraft: fileName ' + fileName + '; markdown ' + markdown)
     await api.poke({
       app: 'blog',
       mark: 'blog-action',
@@ -70,7 +64,6 @@ export const useStore = create<State>()((set) => ({
     })
   },
   saveTheme: async (theme: string, css: string) => {
-    console.log('POKE: saveTheme: theme ' + theme + '; css ' + css)
     await api.poke({
       app: 'blog',
       mark: 'blog-action',
