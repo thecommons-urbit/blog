@@ -278,7 +278,19 @@
         =;  theme  ``json+!>(s+theme)
         theme:(~(got by files) t.t.path)
     ::
-    ::  XX document
+    ::  ask if %pals and %rumors are both installed on our ship
+    ::  .^(json %gx /=blog=/aaaah/noun)
+    [%x %aaaah ~]
+      %-  some
+      %-  some
+      :-  %json
+      !>
+      :-  %b
+      ?&  .^(? %gu /(scot %p our.bowl)/pals/(scot %da now.bowl)/$)
+          .^(? %gu /(scot %p our.bowl)/rumors/(scot %da now.bowl)/$)
+      ==
+    ::
+    ::  get all URLs that are in use by other apps on our ship
     ::  .^(json %gx /=blog=/all-bindings/noun)
       [%x %all-bindings ~]
         =;  the-thing  ``json+!>(the-thing)

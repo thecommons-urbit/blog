@@ -7,6 +7,7 @@ import {
 import { api } from '../state/api'
 import { useStore } from '../state/base'
 import { Publish } from './Modal'
+import { scryUrbit } from '../urbit/scries'
 //
 // TODO rethink icons
 //      e.g. there shouldn't be an RSS icon here,
@@ -132,6 +133,11 @@ export default function BottomBar({
     [fileName, markdown]
   )
 
+  const palsAndRumorsInstalled = async (): Promise<boolean> => {
+    const result = await scryUrbit('blog', '/aaaah');
+    return result;
+  };
+
   const handlePublish = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault()
@@ -148,7 +154,12 @@ export default function BottomBar({
         },
       })
       getAll()
-      setShowPublishModal(true)
+
+      if (await palsAndRumorsInstalled()) {
+        setShowPublishModal(true)
+      } else {
+        setShowPublishModal(false)
+      }
     },
     [fileName, markdown, activeTheme]
   )
