@@ -2,11 +2,10 @@ import { useState, useCallback, useEffect } from 'react'
 import { Link, useMatch, useNavigate } from 'react-router-dom'
 import {
   TrashIcon,
-  ArchiveBoxXMarkIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   PlusCircleIcon,
-  RssIcon,
+  GlobeAltIcon,
 } from '@heroicons/react/24/outline'
 import { useStore } from '../state/base'
 import { ConfirmDeleteDraft, ConfirmUnpublish } from './Modal'
@@ -173,7 +172,7 @@ export default function SideBar() {
                         window.open(item.path, '_blank')
                       }}
                     >
-                      <RssIcon />
+                      <GlobeAltIcon />
                     </div>
                     <div
                       className='w-4 cursor-pointer rounded-sm hover:text-blue-500'
@@ -182,7 +181,7 @@ export default function SideBar() {
                         setFileName(item.path)
                       }}
                     >
-                      <ArchiveBoxXMarkIcon />
+                      <TrashIcon />
                     </div>
                   </>
                 ) : (

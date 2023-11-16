@@ -13,7 +13,7 @@ export default function ConfirmDeleteTheme({
   return (
     <Modal>
       <h4 className='text-md font-bold pb-4'>
-        Are you sure you want to delete {theme}
+        Are you sure you want to delete {theme}?
       </h4>
       <div className='flex text-xs gap-x-2'>
         <button

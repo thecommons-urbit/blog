@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react'
 import { marked } from 'marked'
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ArrowsPointingInIcon,
   ArrowsPointingOutIcon,
 } from '@heroicons/react/24/outline'
@@ -8,16 +10,6 @@ import { api } from '../state/api'
 import { useStore } from '../state/base'
 import { Publish } from './Modal'
 import { scryUrbit } from '../urbit/scries'
-//
-// TODO rethink icons
-//      e.g. there shouldn't be an RSS icon here,
-//      %blog does not currently support RSS
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  InboxArrowDownIcon,
-  RssIcon
-} from '@heroicons/react/24/outline'
 
 type BottomBarProps = {
   showPreview: boolean
@@ -204,9 +196,6 @@ export default function BottomBar({
         disabled={!fileName || disabled}
         onClick={handleSaveDraft}
       >
-        <div className='w-5 mr-2'>
-          <InboxArrowDownIcon />
-        </div>
         Save Draft
       </button>
       {/* publish */}
@@ -215,9 +204,6 @@ export default function BottomBar({
         disabled={!fileName || disabled}
         onClick={handlePublish}
       >
-        <div className='w-5 mr-2'>
-          <RssIcon />
-        </div>
         Publish
       </button>
       <div className='col-span-1 flex flex-row h-full items-center justify-center'>
