@@ -169,7 +169,7 @@ export default function BottomBar({
       <div className='col-span-4'>
         <code>
           <input
-            className='w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            className='w-full shadow appearance-none border rounded py-2 px-3 font-mono text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             placeholder='/example/path'
             value={fileName}
             onChange={(e) => setFileName(e.target.value)}
@@ -184,7 +184,7 @@ export default function BottomBar({
       {/* theme select */}
       <div className='col-span-3'>
         <select
-          className='w-full rounded border-none focus:outline-none'
+          className='w-full rounded border-none font-mono focus:outline-none'
           value={activeTheme}
           onChange={(e) => setActiveTheme(e.target.value)}
         >
@@ -194,7 +194,7 @@ export default function BottomBar({
             </option>
           ))}
         </select>
-        <p className='text-xs italic line-clamp-1'>
+        <p className='text-xs font-sans italic line-clamp-1'>
           <code>%theme</code>
         </p>
       </div>

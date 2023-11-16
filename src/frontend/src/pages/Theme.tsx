@@ -45,15 +45,14 @@ export default function Theme() {
 
   return (
     <div
-      className='grid grid-rows-2 h-full py-4 pr-4'
+      className='grid grid-rows-2 h-full pb-4 pr-4'
       style={{ gridTemplateRows: 'auto 50px' }}
     >
       <div className='col-span-2'>
         <h1 className='text-3xl'>
           Theme Editor
         </h1>
-        <p className='text-gray-700'>put your css below to add a theme</p>
-        <div className='drop-shadow-2xl pt-2' style={{ height: '90%' }}>
+        <div className='drop-shadow-2xl pt-4 font-mono' style={{ height: '90%' }}>
           <CodeEditor
             value={css}
             language='css'
@@ -69,21 +68,21 @@ export default function Theme() {
       <div className='flex gap-x-4 col-span-2'>
         {/* theme filename input */}
         <input
-          className='flex-1 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+          className='flex-1 shadow appearance-none border rounded w-full py-2 px-3 font-mono text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder='theme-name'
         />
         {/* delete theme */}
         <button
-          className='flex-1 flex items-center justify-center bg-darkgray text-white p-2 rounded w-full disabled:opacity-50'
+          className='flex-1 flex items-center justify-center bg-darkgray font-sans text-white p-2 rounded w-full disabled:opacity-50'
           onClick={() => setShowDeleteThemeModal(true)}
         >
           Delete Theme
         </button>
         {/* save theme */}
         <button
-          className='flex-1 flex items-center justify-center bg-darkgray text-white p-2 rounded w-full disabled:opacity-50'
+          className='flex-1 flex items-center justify-center bg-darkgray text-white font-sans p-2 rounded w-full disabled:opacity-50'
           onClick={handleSaveTheme}
           disabled={name === ''}
         >
