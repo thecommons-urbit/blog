@@ -5,6 +5,8 @@ export const defaultText =
 
 Common Blog is a free open-source tool for self-hosted writing and publishing.
 
+You can install it by searching \`~dister-bonbud-macryg\` in the "Get Urbit Apps" menu, or running \`|install ~dister-bonbud-macryg %blog\` in your Terminal app.
+
 Click the arrow in the bottom-right to see the preview for your posts.
 
 Use [markdown](https://www.markdowntutorial.com/) to write your post. To style a post, add a CSS theme in the sidebar and select it from the menu below this editor.
