@@ -231,7 +231,7 @@ export default function SideBar() {
   return (
     <div className='h-full p-4 pr-0 pt-0'>
       <ul className='pb-6'>
-        <label className='block font-bold mb-3 font-sans font-extrabold'>
+        <label className='block font-semibold mb-3 font-sans'>
           Published
         </label>
         {nestedPages.sort(sortSidebar).map((pub: SidebarEntry, i) => (
@@ -239,7 +239,7 @@ export default function SideBar() {
         ))}
       </ul>
       <ul className='pb-6'>
-        <label className='block font-bold mb-3 font-sans font-extrabold'>
+        <label className='block font-semibold mb-3 font-sans'>
           Drafts
         </label>
         {nestedDrafts.sort(sortSidebar).map((draft: SidebarEntry, i) => (
@@ -260,7 +260,7 @@ export default function SideBar() {
         </li>
       </ul>
       <ul className='pb-6'>
-        <label className='block font-bold mb-3 font-sans font-extrabold'>
+        <label className='block font-semibold mb-3 font-sans'>
           Themes
         </label>
         {themes.sort().map((theme: string, i) => (
