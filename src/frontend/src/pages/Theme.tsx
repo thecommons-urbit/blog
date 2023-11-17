@@ -45,14 +45,11 @@ export default function Theme() {
 
   return (
     <div
-      className='grid grid-rows-2 h-full pb-4 pr-4'
+      className='grid grid-rows-2 h-full pt-4 pb-4 pr-4'
       style={{ gridTemplateRows: 'auto 50px' }}
     >
       <div className='col-span-2'>
-        <h1 className='text-3xl'>
-          Theme Editor
-        </h1>
-        <div className='drop-shadow-2xl pt-4 font-mono' style={{ height: '90%' }}>
+        <div className='drop-shadow-2xl h-full font-mono'>
           <CodeEditor
             value={css}
             language='css'
@@ -60,7 +57,9 @@ export default function Theme() {
             style={{
               resize: 'none',
               height: '100%',
+              maxHeight: '85vh',
               borderRadius: '1rem',
+              overflowY: 'scroll'
             }}
           />
         </div>

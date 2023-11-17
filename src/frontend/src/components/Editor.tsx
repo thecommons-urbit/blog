@@ -13,7 +13,7 @@ export default function Editor() {
   const [showPreview, setShowPreview] = useState(false)
 
   return (
-    <div className='grid grid-cols-2 h-full grid-rows-12'>
+    <div className='grid grid-cols-2 h-full'>
       <MDEditor
         value={markdown}
         onChange={(e) => {
@@ -22,19 +22,20 @@ export default function Editor() {
         data-color-mode='light'
         preview='edit'
         hideToolbar
-        className={`w-full h-full row-span-10 ${
+        className={`w-full h-full ${
           showPreview ? 'col-span-1' : 'col-span-2'
-        } overflow-y-scroll drop-shadow-2xl rounded-2xl`}
-        height={'' as any}
+        } overflow-y-scroll drop-shadow-2xl rounded-2xl mt-auto mb-auto`}
+        height={'85vh' as any}
       />
       {showPreview && (
         <iframe
           title='preview'
+          // TODO improve preview html structure; would fix img width issues etc.
           srcDoc={`${marked.parse(markdown)}<style>${previewCss}</style>`}
-          className='col-span-1 w-full h-full row-span-10 rounded-2xl'
+          className='col-span-1 w-full h-full rounded-2xl'
         />
       )}
-      <div className='col-span-2 pt-2 z-10 relative'>
+      <div className='col-span-2 mt-4 mb-4 z-10 relative'>
         <BottomBar
           showPreview={showPreview}
           setShowPreview={setShowPreview}
