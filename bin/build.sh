@@ -21,16 +21,16 @@ usage() {
   fi
 
   echo -e ""
-  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-s SHIP_NAME]"
+  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-s SHIP_NAME] [-u URL] [-v GLOB_HASH]"
   echo -e ""
   echo -e "Build the app frontend and the desk files required to install it on an Urbit ship"
   echo -e ""
   echo -e "Options:"
   echo -e "  -h\tPrint script usage info"
   echo -e "  -k\tSet alternative kelvin version to use (default: $DEFAULT_KELVIN)"
-  # XX add eslint?
-  # echo -e "  -l\tFix formatting errors raised by eslint"
   echo -e "  -s\tSet name of the distributor ship"
+  echo -e "  -u\tURL for %glob-http"
+  echo -e "  -v/tSet glob hash for %glob-http"
   echo -e ""
   exit $1
 }
@@ -50,7 +50,15 @@ docket() {
   echo "  version+[$VERSION_MAJOR $VERSION_MINOR $VERSION_PATCH]" >> $DOCKET_FILE
   echo "  license+'MIT'" >> $DOCKET_FILE
   echo "  website+'https://github.com/thecommons-urbit/blog'" >> $DOCKET_FILE
-  echo "  glob-ames+[~$SHIP 0v0]" >> $DOCKET_FILE
+
+  if [[ -z $GLOB_URL ]] && [[ -z $GLOB_HASH ]]; then
+    echo "  glob-ames+[~$SHIP 0v0]" >> $DOCKET_FILE
+  elif [[ -z $GLOB_URL ]] && [[ ! -z $GLOB_HASH ]]; then
+    echo "  glob-http+['$DEFAULT_GLOB_URL' $GLOB_HASH]" >> $DOCKET_FILE
+  else
+    echo "  glob-http+['$GLOB_URL' $GLOB_HASH]" >> $DOCKET_FILE
+  fi
+
   echo "==" >> $DOCKET_FILE
 }
 
@@ -71,12 +79,14 @@ FRONTEND_DIR="$BUILD_DIR/frontend"
 # LINT_FIX=0
 
 VERSION_MAJOR=0
-VERSION_MINOR=1
-VERSION_PATCH=1
+VERSION_MINOR=2
+VERSION_PATCH=0
 VERSION_FULL="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
 DEFAULT_KELVIN=412
-DEFAULT_DISTRIBUTOR="simsur-ronbet"
+DEFAULT_GLOB_HASH=0v0
+DEFAULT_DISTRIBUTOR="dister-bonbud-macryg"
+DEFAULT_GLOB_URL="https://raw.githubusercontent.com/thecommons-urbit/blog/develop/glob/v$VERSION_FULL.glob"
 
 KELVIN=$DEFAULT_KELVIN
 SHIP=$DEFAULT_DISTRIBUTOR
@@ -86,7 +96,7 @@ SHIP=$DEFAULT_DISTRIBUTOR
 # --------------------------------------
 
 # Parse arguments
-OPTS=":hk:s:"
+OPTS=":hk:s:u:v:"
 while getopts ${OPTS} opt; do
   case ${opt} in
     h)
@@ -98,9 +108,20 @@ while getopts ${OPTS} opt; do
     s)
       SHIP=$OPTARG
       ;;
+    u)
+      GLOB_URL=$OPTARG
+      ;;
+    v)
+      GLOB_HASH=$OPTARG
+      ;;
     :)
-      echo "$SCRIPT_NAME: Missing argument for '-${OPTARG}'" >&2
-      usage 2
+      if [[ "${OPTARG}" == "u" ]]; then
+        echo "$SCRIPT_NAME: Missing GLOB argument for '-u'" >&2
+        usage 2
+      else
+        echo "$SCRIPT_NAME: Missing argument for '-${OPTARG}'" >&2
+        usage 2
+      fi
       ;;
     ?)
       echo "$SCRIPT_NAME: Invalid option '-${OPTARG}'" >&2
