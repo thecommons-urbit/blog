@@ -9,5 +9,6 @@
       [%delete-theme theme=@tas]
       [%update-uri uri=@t]
   ==
+::  XX unused; remove
 +$  sub  [%sub =ship]
 --

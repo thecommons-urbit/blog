@@ -1,3 +1,6 @@
+::
+::  XX remove this file in transition to %4
+::
 |%
 ++  lake
   |$  [rock wave]
