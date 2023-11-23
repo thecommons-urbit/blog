@@ -1,3 +1,6 @@
+::
+::  XX remove this file in transition to %4
+::
 |%
 ++  name  %blog-paths
 +$  rock  [uri=@t paths=(set path)]

@@ -1,4 +1,5 @@
 /-  blog, blog-paths
+::  XX SSS; remove on transition to %4
 /+  blog-lib=blog, dbug, default-agent, *sss
 ::
 %-  agent:dbug
@@ -34,6 +35,7 @@
 |_  =bowl:gall
 +*  this  .
     def   ~(. (default-agent this %.n) bowl)
+    ::  XX SSS; remove on transition to state %4
     du-paths
     =/  du
       (du blog-paths ,[%paths ~])
@@ -110,7 +112,9 @@
             ~  %.n  %payload
             [200 ['Content-Type' 'text/plain; charset=utf-8']~]
             `(as-octs:mimes:^html md)
-    ==  ==
+        ==
+      ::  XX remove SSS in transition to %4
+    ==
   ==
 ::
 ++  on-poke
@@ -125,6 +129,7 @@
     ::  ~&  >>  "attempting {<mark>} poke: {<act>}"
     ?-    -.act
         %publish
+      ::  XX SSS; remove on transition to %4
       =^  cards  pub-paths  (give:du-paths [%paths ~] [%post path.act])
       :_  this(files (~(put by files) [path html md theme]:act))
       %+  welp  cards
@@ -144,6 +149,7 @@
       ==  ==
     ::
         %unpublish
+      ::  XX SSS; remove on transition to %4
       =^  cards  pub-paths  (give:du-paths [%paths ~] [%depost path.act])
       :_  this(files (~(del by files) path.act))
       %+  welp  cards
@@ -190,10 +196,12 @@
       `this(themes (~(del by themes) theme.act))
     ::
         %update-uri
+      ::  XX SSS; remove on transition to %4
       =^  cards  pub-paths  (give:du-paths [%paths ~] [%uri uri.act])
       [cards this]
     ==  ::  end of %blog-action pokes
     ::
+    ::  XX SSS; remove on transition to %4
         %sss-to-pub
       =/  msg  !<(into:du-paths (fled vase))
       =^  cards  pub-paths  (apply:du-paths msg)
@@ -252,6 +260,7 @@
         %-  some
         %-  some
         :-  %blog
+        ::  XX SSS; remove on transition to %4
         !>(uri:rock:(~(got by read:du-paths) [%paths ~]))
     ::
     ::  get published posts
