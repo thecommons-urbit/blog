@@ -1,4 +1,6 @@
 |%
+::
+::  %blog-action
 +$  action
   $%  [%publish =path html=@t md=@t theme=@tas]
       [%unpublish =path]
