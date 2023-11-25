@@ -11,6 +11,7 @@ import { useStore } from '../state/base'
 import { Publish } from './Modal'
 import { scryUrbit } from '../urbit/scries'
 
+// define bottom bar state / methods
 type BottomBarProps = {
   showPreview: boolean
   setShowPreview: React.Dispatch<React.SetStateAction<boolean>>
@@ -28,6 +29,8 @@ export default function BottomBar({
   setFileName,
   setDisabled,
 }: BottomBarProps) {
+
+  // global state / methods
   const {
     markdown,
     activeTheme,
@@ -43,43 +46,60 @@ export default function BottomBar({
     drafts,
   } = useStore()
 
+  // local state/methods
   const [fileNameError, setFileNameError] = useState('')
+  // 'publishModal' being the 'share to %rumors?' modal
   const [showPublishModal, setShowPublishModal] = useState(false)
 
+  // update fileName
   useEffect(() => {
-    setFileName('/' + document.location.pathname.split('/').slice(4).join('/')) // TODO ugly
+    // TODO ugly
+    setFileName('/' + document.location.pathname.split('/').slice(4).join('/'))
   }, [document.location.pathname])
 
-  // TODO don't allow users to input bad filenames
-  // TODO just add a number to the end of duplicate filenames
+  // sanity-check fileName
   useEffect(() => {
     if (fileName.charAt(fileName.length - 1) === '/') {
+      // fileName ends in a slash
       setDisabled(true)
       setFileNameError(`cannot end in a slash`)
     } else if (fileName.charAt(0) !== '/') {
+      // fileName does not start with a slash
       setDisabled(true)
       setFileNameError(`must start with a slash`)
     } else if (allBindings[fileName]) {
+      // fileName is already in use by an app
       const inUse = allBindings[fileName]
+
       if (inUse === 'app: %blog') {
+        // fileName is in use by %blog
+        // TODO should this be true?
         setDisabled(false)
         setFileNameError(`replace ${fileName}`)
       } else {
+        // fileName is in use by another app
         setDisabled(true)
         setFileNameError(`${fileName} is in use by ${inUse}`)
       }
+
     } else if (drafts.includes(fileName)) {
+      // fileName is in use by a draft blog post
+      // TODO should this be true?
       setDisabled(false)
       setFileNameError(`replace ${fileName}`)
     } else {
+      // no error detected
       setDisabled(false)
       setFileNameError('')
     }
   }, [fileName, pages])
 
+  // get CSS for new activeTheme
   useEffect(() => {
+    // if activeTheme's name is an empty string, revert to first theme in the list
     if (themes.length > 0 && activeTheme === '') setActiveTheme(themes[0])
     async function getTheme() {
+      // check activeTheme's name is not an empty string before attempting to scry
       if (activeTheme !== '') {
         const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` });
         setPreviewCss(css);
@@ -88,8 +108,7 @@ export default function BottomBar({
     getTheme()
   }, [activeTheme, themes])
 
-  // TODO don't allow users to input bad filenames
-  // TODO just add a number to the end of duplicate filenames
+  // TODO is this duplicate code?
   useEffect(() => {
     if (fileName.charAt(fileName.length - 1) === '/') {
       setDisabled(true)
@@ -118,17 +137,23 @@ export default function BottomBar({
   const handleSaveDraft = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault()
+      // save draft to backend
       saveDraft(fileName, markdown)
+      // scry new frontend state
+      // TODO review frontend/backend state interaction
+      //        backend should actively update frontend
       getAll()
     },
     [fileName, markdown]
   )
 
+  // check if pals and rumors are both installed
   const palsAndRumorsInstalled = async (): Promise<boolean> => {
     const result = await scryUrbit('blog', '/aaaah');
     return result;
   };
 
+  // publish post
   const handlePublish = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault()
@@ -190,7 +215,7 @@ export default function BottomBar({
           <code>%theme</code>
         </p>
       </div>
-      {/* save draft */}
+      {/* save draft button */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
         disabled={!fileName || disabled}
@@ -198,7 +223,7 @@ export default function BottomBar({
       >
         Save Draft
       </button>
-      {/* publish */}
+      {/* publish button */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
         disabled={!fileName || disabled}
@@ -207,7 +232,7 @@ export default function BottomBar({
         Publish
       </button>
       <div className='col-span-1 flex flex-row h-full items-center justify-center'>
-        {/* fullscreen editor */}
+        {/* fullscreen editor button */}
         <button
           className='flex-1 flex items-start justify-center rounded w-full h-full text-blue-500 hover:text-blue-700'
           onClick={() => setIsFocusMode(!isFocusMode)}
@@ -222,7 +247,7 @@ export default function BottomBar({
             </div>
           </div>
         </button>
-        {/* show/hide preview */}
+        {/* show/hide preview button */}
         <button
           className='flex-1 flex items-start justify-center rounded w-full h-full text-blue-500 hover:text-blue-700'
           onClick={() => setShowPreview(!showPreview)}

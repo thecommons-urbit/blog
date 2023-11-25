@@ -8,12 +8,14 @@ export default function Editor() {
   const markdown = useStore((state) => state.markdown)
   const setMarkdown = useStore((state) => state.setMarkdown)
   const previewCss = useStore((state) => state.previewCss)
+  
   const [fileName, setFileName] = useState('')
   const [disabled, setDisabled] = useState(true)
   const [showPreview, setShowPreview] = useState(false)
 
   return (
     <div className='grid grid-cols-2 h-full'>
+      {/* post editor */}
       <MDEditor
         value={markdown}
         onChange={(e) => {
@@ -27,6 +29,7 @@ export default function Editor() {
         } overflow-y-scroll drop-shadow-2xl rounded-2xl mt-auto mb-auto`}
         height={'85vh' as any}
       />
+      {/* post preview */}
       {showPreview && (
         <iframe
           title='preview'
@@ -35,6 +38,7 @@ export default function Editor() {
           className='col-span-1 w-full h-full rounded-2xl'
         />
       )}
+      {/* bottom bar */}
       <div className='col-span-2 mt-4 mb-4 z-10 relative'>
         <BottomBar
           showPreview={showPreview}

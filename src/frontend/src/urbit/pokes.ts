@@ -5,7 +5,6 @@ import { BlogAction } from '../types/blog'
 function emptyFunction (): void {}
 
 // generic poke functions
-
 export function pokeBlog (urbit: Urbit, action: BlogAction, onError?: () => void, onSuccess?: () => void) {
   const pokeInput = {
     app: 'blog',

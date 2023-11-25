@@ -8,11 +8,13 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <main className='h-full bg-gray px-4 pt-4'>
       <div className='grid grid-rows-1 lg:grid-cols-12 md:grid-cols-1 gap-4 h-full'>
+        {/* sidebar */}
         {!isFocusMode ? (
           <div className='col-span-3 overflow-y-scroll'>
             <SideBar />
           </div>
         ) : null}
+        {/* draft / theme editor */}
         <div className={`${!isFocusMode ? 'col-span-9' : 'col-span-12'}`}>
           {children}
         </div>

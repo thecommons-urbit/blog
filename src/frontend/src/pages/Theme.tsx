@@ -5,6 +5,7 @@ import { ConfirmDeleteTheme } from '../components/Modal'
 import { api } from '../state/api'
 import { useStore } from '../state/base'
 
+// theme editor
 export default function Theme() {
   const { theme } = useParams()
   const [name, setName] = useState(theme ? theme : '')

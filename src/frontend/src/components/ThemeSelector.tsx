@@ -7,6 +7,7 @@ type ThemeSelectorProps = {
   setRescry: React.Dispatch<any>
 }
 
+// TODO is this ever used?
 export default function ThemeSelector(props: ThemeSelectorProps) {
   const { theme, themes, setTheme, setRescry } = props
   const [isOpen, setIsOpen] = useState(false)

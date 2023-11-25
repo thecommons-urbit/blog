@@ -4,6 +4,7 @@ import { api } from '../state/api'
 import Editor from '../components/Editor'
 import { useStore } from '../state/base'
 
+// published post
 export default function Published() {
   const match = useMatch('*')
   const setMarkdown    = useStore((state) => state.setMarkdown)
