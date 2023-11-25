@@ -9,6 +9,7 @@ export default function ThemeList (props: ThemeListProps) {
 
   if (themes.length === 0) return <></>
 
+  // TODO is this ever used?
   return (
     <ul className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <label className="block text-gray-700 font-bold mb-5 text-center"><code>%theme</code>s</label>
@@ -24,7 +25,7 @@ export default function ThemeList (props: ThemeListProps) {
             >
               <code>%edit</code>
             </button>
-            <button 
+            <button
               className="bg-red-500 hover:bg-red-700 text-white p-2 rounded disabled:opacity-50"
               onClick={() => remove(bind)}
             >
