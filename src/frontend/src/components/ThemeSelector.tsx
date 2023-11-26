@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 interface ThemeSelectorProps {
   theme: string
@@ -8,10 +8,10 @@ interface ThemeSelectorProps {
 }
 
 // TODO is this ever used?
-export default function ThemeSelector (props: ThemeSelectorProps) {
+export default function ThemeSelector (props: ThemeSelectorProps): JSX.Element {
   const { theme, themes, setTheme, setRescry } = props
   const [isOpen, setIsOpen] = useState(false)
-  const toggleDropdown = () => { setIsOpen(!isOpen) }
+  const toggleDropdown = (): void => { setIsOpen(!isOpen) }
 
   return (
     <div className="relative">
