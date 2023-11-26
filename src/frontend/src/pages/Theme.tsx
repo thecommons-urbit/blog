@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import CodeEditor from '@uiw/react-textarea-code-editor'
 import { ConfirmDeleteTheme } from '../components/Modal'
@@ -6,24 +6,24 @@ import { api } from '../state/api'
 import { useStore } from '../state/base'
 
 // theme editor
-export default function Theme () {
+export default function Theme (): JSX.Element {
   const { theme } = useParams()
-  const [name, setName] = useState(theme || '')
+  const [name, setName] = useState(theme ?? '')
   const [css, setCss] = useState('')
   const [showDeleteThemeModal, setShowDeleteThemeModal] = useState(false)
   const { getAll, saveTheme } = useStore()
 
   useEffect(() => {
-    async function getCss () {
+    async function getCss (): Promise<void> {
       const a = await api.scry({ app: 'blog', path: `/theme/${theme}` })
       setCss(a)
     }
     getCss()
-    setName(theme || '')
+    setName(theme ?? '')
   }, [theme])
 
   const handleSaveTheme = useCallback(
-    async (e: React.SyntheticEvent) => {
+    (e: React.SyntheticEvent): void => {
       e.preventDefault()
       saveTheme(name, css)
       getAll()
@@ -31,8 +31,8 @@ export default function Theme () {
     [name, css]
   )
 
-  const handleDeleteTheme = useCallback(async () => {
-    await api.poke({
+  const handleDeleteTheme = useCallback((): void => {
+    api.poke({
       app: 'blog',
       mark: 'blog-action',
       json: {
