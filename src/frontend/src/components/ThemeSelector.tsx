@@ -1,17 +1,17 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-type ThemeSelectorProps = {
-  theme:  string
+interface ThemeSelectorProps {
+  theme: string
   themes: string[]
   setTheme: React.Dispatch<React.SetStateAction<string>>
   setRescry: React.Dispatch<any>
 }
 
 // TODO is this ever used?
-export default function ThemeSelector(props: ThemeSelectorProps) {
+export default function ThemeSelector (props: ThemeSelectorProps) {
   const { theme, themes, setTheme, setRescry } = props
   const [isOpen, setIsOpen] = useState(false)
-  const toggleDropdown = () => setIsOpen(!isOpen)
+  const toggleDropdown = () => { setIsOpen(!isOpen) }
 
   return (
     <div className="relative">
@@ -24,17 +24,19 @@ export default function ThemeSelector(props: ThemeSelectorProps) {
       <ul className={`bg-white w-full absolute rounded ${isOpen && 'border shadow'}`}>
         {isOpen && (
           <>
-            {  themes.map((theme, i) => { return (
+            { themes.map((theme, i) => {
+              return (
               <div className="bg-white m-auto" key={i}>
                 <button
                   key={i}
                   className="block text-blue rounded py-2 w-full m-auto"
-                  onClick={() => {setTheme(theme); toggleDropdown(); setRescry(i)}}
+                  onClick={() => { setTheme(theme); toggleDropdown(); setRescry(i) }}
                 >
                   <code>%{theme}</code>
                 </button>
               </div>
-            )})}
+              )
+            })}
           </>
         )}
       </ul>

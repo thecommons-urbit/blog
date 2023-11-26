@@ -4,11 +4,11 @@ import { useState } from 'react'
 import BottomBar from './BottomBar'
 import { useStore } from '../state/base'
 
-export default function Editor() {
+export default function Editor () {
   const markdown = useStore((state) => state.markdown)
   const setMarkdown = useStore((state) => state.setMarkdown)
   const previewCss = useStore((state) => state.previewCss)
-  
+
   const [fileName, setFileName] = useState('')
   const [disabled, setDisabled] = useState(true)
   const [showPreview, setShowPreview] = useState(false)

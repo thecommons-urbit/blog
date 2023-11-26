@@ -1,5 +1,5 @@
-import Urbit from '@urbit/http-api'
-import { BlogAction } from '../types/blog'
+import type Urbit from '@urbit/http-api'
+import { type BlogAction } from '../types/blog'
 
 // helper function for null callbacks
 function emptyFunction (): void {}
@@ -20,8 +20,8 @@ export function pokeBlog (urbit: Urbit, action: BlogAction, onError?: () => void
 // TODO could we narrow down action type from any?
 export function pokeUrbit (urbit: Urbit, app: string, mark: string, action: any, onError?: () => void, onSuccess?: () => void) {
   const pokeInput = {
-    app: app,
-    mark: mark,
+    app,
+    mark,
     json: action,
     onError: (typeof onError !== 'undefined') ? onError : emptyFunction,
     onSuccess: (typeof onSuccess !== 'undefined') ? onSuccess : emptyFunction

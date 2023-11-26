@@ -5,7 +5,7 @@ import Editor from '../components/Editor'
 import { useStore } from '../state/base'
 
 // draft post
-export default function Draft() {
+export default function Draft () {
   const match = useMatch('*')
   const setMarkdown = useStore((state) => state.setMarkdown)
 

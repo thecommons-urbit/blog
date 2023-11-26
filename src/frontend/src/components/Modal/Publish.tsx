@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Modal, ModalProps } from './Modal'
+import { Modal, type ModalProps } from './Modal'
 
 interface PublishModalProps extends ModalProps {
   fileName: string
 }
 
-export default function Share({ setShowModal, fileName }: PublishModalProps) {
+export default function Share ({ setShowModal, fileName }: PublishModalProps) {
   const [value, setValue] = useState(
     `AAAAH I'M GONNA %blog : ${window.location.origin}${fileName}`
   )
@@ -25,7 +25,7 @@ export default function Share({ setShowModal, fileName }: PublishModalProps) {
           required
           className='w-full mb-4 font-sans'
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => { setValue(e.target.value) }}
         />
         <div className='flex text-xs gap-x-2'>
           <button

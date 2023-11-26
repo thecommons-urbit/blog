@@ -5,18 +5,18 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   PlusCircleIcon,
-  GlobeAltIcon,
+  GlobeAltIcon
 } from '@heroicons/react/24/outline'
 import { useStore } from '../state/base'
 import { ConfirmDeleteDraft, ConfirmUnpublish } from './Modal'
 import { api } from '../state/api'
 
-type SidebarEntry = {
+interface SidebarEntry {
   path: string
   children: string[]
 }
 
-export default function SideBar() {
+export default function SideBar () {
   const drafts = useStore((state) => state.drafts)
   const pages = useStore((state) => state.pages)
   const themes = useStore((state) => state.themes)
@@ -42,7 +42,7 @@ export default function SideBar() {
       .map((d) => ({
         path: parentPath(d),
         children: paths.filter((_d) => parentPath(_d) === parentPath(d)),
-        linkbase,
+        linkbase
       }))
       .filter((d) => !!d)
       .reduce((acc: SidebarEntry[], cur) => {
@@ -67,7 +67,7 @@ export default function SideBar() {
   // add a unique number to the end of a duplicate fileName
   const findNextNewFileName = (
     newFileName: string,
-    files: Array<string>,
+    files: string[],
     i?: number
   ): string => {
     if (files.includes(i ? `${newFileName}-${i}` : newFileName)) {
@@ -109,9 +109,9 @@ export default function SideBar() {
       mark: 'blog-action',
       json: {
         'delete-draft': {
-          path: toDelete,
-        },
-      },
+          path: toDelete
+        }
+      }
     })
     setShowDeleteDraftModal(false)
     getAll()
@@ -123,7 +123,7 @@ export default function SideBar() {
     await api.poke({
       app: 'blog',
       mark: 'blog-action',
-      json: { unpublish: { path: toUnpublish } },
+      json: { unpublish: { path: toUnpublish } }
     })
     setShowUnpublishModal(false)
     getAll()
@@ -133,11 +133,10 @@ export default function SideBar() {
   const showModal = (linkbase: string) => {
     switch (linkbase) {
       case '/published':
-        return setShowUnpublishModal(true)
+      { setShowUnpublishModal(true); return }
       case '/draft':
-        return setShowDeleteDraftModal(true)
+      { setShowDeleteDraftModal(true) }
       default:
-        return
     }
   }
 
@@ -158,7 +157,7 @@ export default function SideBar() {
   }
 
   // sidebar entry with base: /drafts, /published, etc.
-  type SidebarItemProps = {
+  interface SidebarItemProps {
     linkbase: string
     item: SidebarEntry
   }
@@ -166,7 +165,7 @@ export default function SideBar() {
   // sidebar item
   const SidebarItem = ({ linkbase, item }: SidebarItemProps) => {
     // e.g. /drafts/foo/bar
-    let linkto = `${linkbase}${item.path}`
+    const linkto = `${linkbase}${item.path}`
     // component state
     const [open, setOpen] = useState(false)
     const [hovered, setHovered] = useState(false)
@@ -186,8 +185,8 @@ export default function SideBar() {
             if (hasChildren(item)) return
             navigate(linkto)
           }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onMouseEnter={() => { setHovered(true) }}
+          onMouseLeave={() => { setHovered(false) }}
         >
           {/* sidebar entry with no children */}
           {!hasChildren(item) && (
@@ -200,7 +199,8 @@ export default function SideBar() {
               {/* TODO move this */}
               {linkbase !== '/theme/' &&
                 hovered &&
-                (linkbase === '/published' ? (
+                (linkbase === '/published'
+                  ? (
                   <>
                     <div
                       className='w-4 cursor-pointer rounded-sm hover:text-red-500'
@@ -220,7 +220,8 @@ export default function SideBar() {
                       <TrashIcon />
                     </div>
                   </>
-                ) : (
+                    )
+                  : (
                   <div
                     className='w-4 cursor-pointer rounded-sm hover:text-red-500'
                     onClick={() => {
@@ -230,7 +231,7 @@ export default function SideBar() {
                   >
                     <TrashIcon />
                   </div>
-                ))}
+                    ))}
             </div>
           )}
           {/* sidebar entry with children */}
@@ -276,7 +277,7 @@ export default function SideBar() {
         </label>
         {/* published items */}
         {nestedPages.sort(sortSidebar).map((pub: SidebarEntry, i) => (
-          <SidebarItem linkbase={`/published`} item={pub} key={i}></SidebarItem>
+          <SidebarItem linkbase={'/published'} item={pub} key={i}></SidebarItem>
         ))}
       </ul>
       {/* drafts section */}
@@ -286,7 +287,7 @@ export default function SideBar() {
         </label>
         {/* draft items */}
         {nestedDrafts.sort(sortSidebar).map((draft: SidebarEntry, i) => (
-          <SidebarItem linkbase={`/draft`} item={draft} key={i}></SidebarItem>
+          <SidebarItem linkbase={'/draft'} item={draft} key={i}></SidebarItem>
         ))}
         <li>
           {/* new draft button */}
@@ -311,7 +312,7 @@ export default function SideBar() {
         {/* saved themes */}
         {themes.sort().map((theme: string, i) => (
           <SidebarItem
-            linkbase={`/theme/`}
+            linkbase={'/theme/'}
             item={{ path: theme, children: [] }}
             key={i}
           ></SidebarItem>
@@ -336,7 +337,7 @@ export default function SideBar() {
         <ConfirmDeleteDraft
           fileName={fileName}
           setShowModal={setShowDeleteDraftModal}
-          onConfirm={() => handleDeleteDraft(fileName)}
+          onConfirm={async () => { await handleDeleteDraft(fileName) }}
         />
       )}
       {/* unpublish draft modal */}
@@ -344,7 +345,7 @@ export default function SideBar() {
         <ConfirmUnpublish
           fileName={fileName}
           setShowModal={setShowUnpublishModal}
-          onConfirm={() => handleUnpublish(fileName)}
+          onConfirm={async () => { await handleUnpublish(fileName) }}
         />
       )}
     </div>

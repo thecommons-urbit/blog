@@ -1,14 +1,14 @@
-import { Modal, ModalProps } from './Modal'
+import { Modal, type ModalProps } from './Modal'
 
 interface ConfirmUnpublishProps extends ModalProps {
   fileName: string
   onConfirm: Function
 }
 
-export default function ConfirmUnpublish({
+export default function ConfirmUnpublish ({
   fileName,
   onConfirm,
-  setShowModal,
+  setShowModal
 }: ConfirmUnpublishProps) {
   return (
     <Modal>
@@ -18,7 +18,7 @@ export default function ConfirmUnpublish({
       <div className='flex text-xs gap-x-2'>
         <button
           className='flex-1 bg-blue-500 hover:bg-blue-700 text-white p-2 rounded w-full'
-          onClick={() => setShowModal(false)}
+          onClick={() => { setShowModal(false) }}
         >
           Cancel
         </button>
