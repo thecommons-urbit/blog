@@ -15,5 +15,6 @@
         "react"
     ],
     "rules": {
+      "@typescript-eslint/no-floating-promises": "off"
     }
 }
