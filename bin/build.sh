@@ -30,7 +30,7 @@ usage() {
   echo -e "  -k\tSet alternative kelvin version to use (default: $DEFAULT_KELVIN)"
   echo -e "  -s\tSet name of the distributor ship"
   echo -e "  -u\tURL for %glob-http"
-  echo -e "  -v/tSet glob hash for %glob-http"
+  echo -e "  -v\tSet glob hash for %glob-http"
   echo -e ""
   exit $1
 }
