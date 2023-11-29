@@ -1,7 +1,10 @@
+import React from 'react'
 import { Modal, type ModalProps } from './Modal'
 
 interface ConfirmDeleteDraftProps extends ModalProps {
   fileName: string
+  // TODO don't use Function as a type
+  //        (see ConfirmUnpublish)
   onConfirm: Function
 }
 
@@ -9,7 +12,7 @@ export default function ConfirmDeleteDraft ({
   fileName,
   onConfirm,
   setShowModal
-}: ConfirmDeleteDraftProps) {
+}: ConfirmDeleteDraftProps): JSX.Element {
   return (
     <Modal>
       <h4 className='text-md font-bold pb-4'>
