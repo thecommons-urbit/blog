@@ -1,7 +1,10 @@
+import React from 'react'
 import { Modal, type ModalProps } from './Modal'
 
 interface ConfirmDeleteThemeProps extends ModalProps {
   theme?: string
+  // TODO don't use Function as a type
+  //        (see ConfirmUnpublish)
   onConfirm: Function
 }
 
@@ -9,7 +12,7 @@ export default function ConfirmDeleteTheme ({
   theme,
   onConfirm,
   setShowModal
-}: ConfirmDeleteThemeProps) {
+}: ConfirmDeleteThemeProps): JSX.Element {
   return (
     <Modal>
       <h4 className='text-md font-bold pb-4'>
