@@ -1,10 +1,10 @@
 import MDEditor from '@uiw/react-md-editor'
 import { marked } from 'marked'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import BottomBar from './BottomBar'
 import { useStore } from '../state/base'
 
-export default function Editor () {
+export default function Editor (): JSX.Element {
   const markdown = useStore((state) => state.markdown)
   const setMarkdown = useStore((state) => state.setMarkdown)
   const previewCss = useStore((state) => state.previewCss)
@@ -19,7 +19,9 @@ export default function Editor () {
       <MDEditor
         value={markdown}
         onChange={(e) => {
-          setMarkdown(e!)
+          if (e !== undefined) {
+            setMarkdown(e)
+          }
         }}
         data-color-mode='light'
         preview='edit'
