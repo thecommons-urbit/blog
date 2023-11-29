@@ -1,8 +1,8 @@
-import { type ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 import { useStore } from '../state/base'
 import SideBar from '../components/SideBar'
 
-export default function Layout ({ children }: { children: ReactNode }) {
+export default function Layout ({ children }: { children: ReactNode }): JSX.Element {
   const isFocusMode = useStore((state) => state.isFocusMode)
 
   return (
