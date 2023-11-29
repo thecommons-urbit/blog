@@ -1,7 +1,11 @@
+import React from 'react'
 import { Modal, type ModalProps } from './Modal'
 
 interface ConfirmUnpublishProps extends ModalProps {
   fileName: string
+  // TODO don't use Function as a type
+  //        see eslint error
+  //        needs some refactoring, maybe define interfaces in /types
   onConfirm: Function
 }
 
@@ -9,7 +13,7 @@ export default function ConfirmUnpublish ({
   fileName,
   onConfirm,
   setShowModal
-}: ConfirmUnpublishProps) {
+}: ConfirmUnpublishProps): JSX.Element {
   return (
     <Modal>
       <h4 className='text-md font-bold pb-4'>
