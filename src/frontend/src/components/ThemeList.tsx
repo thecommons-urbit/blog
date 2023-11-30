@@ -1,15 +1,16 @@
+import React from 'react'
+
 interface ThemeListProps {
   themes: string[]
   edit: (path: string, toEdit: string) => Promise<void>
   remove: (toDelete: string) => Promise<void>
 }
 
-export default function ThemeList (props: ThemeListProps) {
+export default function ThemeList (props: ThemeListProps): JSX.Element {
   const { themes, edit, remove } = props
 
   if (themes.length === 0) return <></>
 
-  // TODO is this ever used?
   return (
     <ul className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <label className="block text-gray-700 font-bold mb-5 text-center"><code>%theme</code>s</label>
