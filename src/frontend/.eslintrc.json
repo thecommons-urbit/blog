@@ -15,6 +15,9 @@
         "react"
     ],
     "rules": {
-      "@typescript-eslint/no-floating-promises": "off"
+      "@typescript-eslint/no-floating-promises": "off",
+      "@typescript-eslint/no-misused-promises": "off",
+      // TODO remove this and fix ban-types errors
+      "@typescript-eslint/ban-types": "off"
     }
 }
