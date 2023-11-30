@@ -4,10 +4,10 @@ import Layout from './components/Layout'
 import Draft from './pages/Draft'
 import Published from './pages/Published'
 import { useStore } from './state/base'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import Theme from './pages/Theme'
 
-function App () {
+function App (): JSX.Element {
   const getAll = useStore(state => state.getAll)
 
   // populate state with data from backend
