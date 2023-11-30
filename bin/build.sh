@@ -21,13 +21,14 @@ usage() {
   fi
 
   echo -e ""
-  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-s SHIP_NAME] [-u URL] [-v GLOB_HASH]"
+  echo -e "Usage:\t$SCRIPT_NAME [-h] [-k KELVIN] [-l] [-s SHIP_NAME] [-u URL] [-v GLOB_HASH]"
   echo -e ""
   echo -e "Build the app frontend and the desk files required to install it on an Urbit ship"
   echo -e ""
   echo -e "Options:"
   echo -e "  -h\tPrint script usage info"
   echo -e "  -k\tSet alternative kelvin version to use (default: $DEFAULT_KELVIN)"
+  echo -e "  -l\tFix formatting errors raised by eslint"
   echo -e "  -s\tSet name of the distributor ship"
   echo -e "  -u\tURL for %glob-http"
   echo -e "  -v\tSet glob hash for %glob-http"
@@ -75,8 +76,7 @@ BUILD_DIR="$ROOT_DIR/build"
 DESK_DIR="$BUILD_DIR/desk"
 FRONTEND_DIR="$BUILD_DIR/frontend"
 
-# XX add eslint?
-# LINT_FIX=0
+LINT_FIX=0
 
 VERSION_MAJOR=0
 VERSION_MINOR=2
@@ -96,7 +96,7 @@ SHIP=$DEFAULT_DISTRIBUTOR
 # --------------------------------------
 
 # Parse arguments
-OPTS=":hk:s:u:v:"
+OPTS=":hlk:s:u:v:"
 while getopts ${OPTS} opt; do
   case ${opt} in
     h)
@@ -104,6 +104,9 @@ while getopts ${OPTS} opt; do
       ;;
     k)
       KELVIN=$OPTARG
+      ;;
+    l)
+      LINT_FIX=1
       ;;
     s)
       SHIP=$OPTARG
@@ -135,9 +138,17 @@ rm -rf $BUILD_DIR
 mkdir -p $DESK_DIR
 
 # Build frontend
-cd "$ROOT_DIR/src/frontend"
-npm run build
-mv "$ROOT_DIR/src/frontend/dist" "$ROOT_DIR/build/frontend/"
+if [ $LINT_FIX -eq 0 ]; then
+  cd "$ROOT_DIR/src/frontend"
+  npm run lint
+  npm run build
+  mv "$ROOT_DIR/src/frontend/dist" "$ROOT_DIR/build/frontend/"
+else
+  cd "$ROOT_DIR/src/frontend"
+  npm run lint -- --fix
+  npm run build
+  mv "$ROOT_DIR/src/frontend/dist" "$ROOT_DIR/build/frontend/"
+fi
 
 # Copy app backend
 cp -r "$ROOT_DIR/src/backend"/* "$ROOT_DIR/build/desk/"
@@ -145,11 +156,7 @@ cp -r "$ROOT_DIR/src/backend"/* "$ROOT_DIR/build/desk/"
 # Build desk.docket-0
 docket
 
-# Build desk.bill
+# Build metadata
 echo ":~  %blog  ==" > $DESK_DIR/desk.bill
-
-# Build desk.ship
 echo "~$SHIP" > $DESK_DIR/desk.ship
-
-# Build sys.kelvin
 echo "[%zuse $KELVIN]" > $DESK_DIR/sys.kelvin
