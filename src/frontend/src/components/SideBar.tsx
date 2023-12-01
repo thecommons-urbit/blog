@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react'
-import { Link, useMatch, useNavigate } from 'react-router-dom'
+import React, { useState, useCallback, useEffect } from 'react'
+import { useMatch, useNavigate } from 'react-router-dom'
 import {
   TrashIcon,
   ChevronDownIcon,
@@ -16,7 +16,7 @@ interface SidebarEntry {
   children: string[]
 }
 
-export default function SideBar () {
+export default function SideBar (): JSX.Element {
   const drafts = useStore((state) => state.drafts)
   const pages = useStore((state) => state.pages)
   const themes = useStore((state) => state.themes)
@@ -37,27 +37,27 @@ export default function SideBar () {
   }, [pages, drafts])
 
   // main foldering logic
-  const nestPaths = (paths: string[], linkbase: string) => {
+  const nestPaths = (paths: string[], linkbase: string): SidebarEntry[] => {
     return paths
       .map((d) => ({
         path: parentPath(d),
         children: paths.filter((_d) => parentPath(_d) === parentPath(d)),
         linkbase
       }))
-      .filter((d) => !!d)
+      // .filter((d) => !!d)
       .reduce((acc: SidebarEntry[], cur) => {
         if (acc.length === 0) return [...acc, cur]
-        if (!acc.find((d) => d.path === cur.path)) return [...acc, cur]
+        if ((acc.find((d) => d.path === cur.path)) === undefined) return [...acc, cur]
         return acc
       }, [])
       .map((path) =>
-        path && path.children && path.children.length === 1
+        path.children.length === 1
           ? { ...path, path: path.children[0] }
           : path
       )
   }
 
-  const parentPath = (path: string) => {
+  const parentPath = (path: string): string => {
     return path.split('/').slice(0, 2).join('/')
   }
 
@@ -70,10 +70,10 @@ export default function SideBar () {
     files: string[],
     i?: number
   ): string => {
-    if (files.includes(i ? `${newFileName}-${i}` : newFileName)) {
-      return findNextNewFileName(newFileName, files, i ? i + 1 : 1)
+    if (files.includes(i !== undefined ? `${newFileName}-${i}` : newFileName)) {
+      return findNextNewFileName(newFileName, files, i !== undefined ? i + 1 : 1)
     }
-    return i ? `${newFileName}-${i}` : `${newFileName}`
+    return i !== undefined ? `${newFileName}-${i}` : `${newFileName}`
   }
 
   // save a new draft
@@ -130,21 +130,22 @@ export default function SideBar () {
   }, [])
 
   // decide which modal to show on deleting a post
-  const showModal = (linkbase: string) => {
+  const showModal = (linkbase: string): undefined => {
     switch (linkbase) {
       case '/published':
       { setShowUnpublishModal(true); return }
       case '/draft':
-      { setShowDeleteDraftModal(true) }
+        setShowDeleteDraftModal(true)
+        break
       default:
     }
   }
 
   // does sidebar entry have children
-  const hasChildren = (entry: SidebarEntry) => entry.children.length > 1
+  const hasChildren = (entry: SidebarEntry): boolean => entry.children.length > 1
 
   // sort sidebar entries based on children
-  const sortSidebar = (a: SidebarEntry, b: SidebarEntry) => {
+  const sortSidebar = (a: SidebarEntry, b: SidebarEntry): number => {
     // a before b
     if (hasChildren(a) && !hasChildren(b)) return -1
     // b before a
@@ -163,7 +164,7 @@ export default function SideBar () {
   }
 
   // sidebar item
-  const SidebarItem = ({ linkbase, item }: SidebarItemProps) => {
+  const SidebarItem = ({ linkbase, item }: SidebarItemProps): JSX.Element => {
     // e.g. /drafts/foo/bar
     const linkto = `${linkbase}${item.path}`
     // component state
