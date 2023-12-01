@@ -140,7 +140,7 @@ mkdir -p $DESK_DIR
 # Build frontend
 if [ $LINT_FIX -eq 0 ]; then
   cd "$ROOT_DIR/src/frontend"
-  # npm run lint
+  npm run lint
   npm run build
   mv "$ROOT_DIR/src/frontend/dist" "$ROOT_DIR/build/frontend/"
 else
