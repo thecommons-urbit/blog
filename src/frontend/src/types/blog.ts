@@ -1,4 +1,3 @@
-
 // basic types
 
 export type CSS = string

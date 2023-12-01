@@ -1,15 +1,16 @@
-type ThemeListProps = {
+import React from 'react'
+
+interface ThemeListProps {
   themes: string[]
   edit: (path: string, toEdit: string) => Promise<void>
   remove: (toDelete: string) => Promise<void>
 }
 
-export default function ThemeList (props: ThemeListProps) {
+export default function ThemeList (props: ThemeListProps): JSX.Element {
   const { themes, edit, remove } = props
 
   if (themes.length === 0) return <></>
 
-  // TODO is this ever used?
   return (
     <ul className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <label className="block text-gray-700 font-bold mb-5 text-center"><code>%theme</code>s</label>
@@ -21,13 +22,13 @@ export default function ThemeList (props: ThemeListProps) {
           <div className="flex-1 flex justify-end">
             <button
               className="bg-yellow-500 hover:bg-yellow-700 text-white p-2 rounded mr-3 disabled:opacity-50"
-              onClick={() => edit('/theme/', bind)}
+              onClick={async () => { await edit('/theme/', bind) }}
             >
               <code>%edit</code>
             </button>
             <button
               className="bg-red-500 hover:bg-red-700 text-white p-2 rounded disabled:opacity-50"
-              onClick={() => remove(bind)}
+              onClick={async () => { await remove(bind) }}
             >
               <code>%delete</code>
             </button>

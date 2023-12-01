@@ -1,7 +1,9 @@
 import Urbit from '@urbit/http-api'
 
 // generic scry function
-export function scryUrbit (app: string, path: string) {
+// TODO narrow down type from any?
+//        the plan is to add more specific scry helpers leveraging this one
+export async function scryUrbit (app: string, path: string): Promise<any> {
   const urbit = new Urbit('')
-  return urbit.scry({ app: app, path: path })
+  return await urbit.scry({ app, path })
 }

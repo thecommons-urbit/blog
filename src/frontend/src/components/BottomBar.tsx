@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { marked } from 'marked'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ArrowsPointingInIcon,
-  ArrowsPointingOutIcon,
+  ArrowsPointingOutIcon
 } from '@heroicons/react/24/outline'
 import { api } from '../state/api'
 import { useStore } from '../state/base'
@@ -12,7 +12,7 @@ import { Publish } from './Modal'
 import { scryUrbit } from '../urbit/scries'
 
 // define bottom bar state / methods
-type BottomBarProps = {
+interface BottomBarProps {
   showPreview: boolean
   setShowPreview: React.Dispatch<React.SetStateAction<boolean>>
   fileName: string
@@ -21,15 +21,14 @@ type BottomBarProps = {
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function BottomBar({
+export default function BottomBar ({
   fileName,
   disabled,
   showPreview,
   setShowPreview,
   setFileName,
-  setDisabled,
-}: BottomBarProps) {
-
+  setDisabled
+}: BottomBarProps): JSX.Element {
   // global state / methods
   const {
     markdown,
@@ -43,7 +42,7 @@ export default function BottomBar({
     saveDraft,
     pages,
     allBindings,
-    drafts,
+    drafts
   } = useStore()
 
   // local state/methods
@@ -62,12 +61,12 @@ export default function BottomBar({
     if (fileName.charAt(fileName.length - 1) === '/') {
       // fileName ends in a slash
       setDisabled(true)
-      setFileNameError(`cannot end in a slash`)
+      setFileNameError('cannot end in a slash')
     } else if (fileName.charAt(0) !== '/') {
       // fileName does not start with a slash
       setDisabled(true)
-      setFileNameError(`must start with a slash`)
-    } else if (allBindings[fileName]) {
+      setFileNameError('must start with a slash')
+    } else if (allBindings[fileName] !== undefined) {
       // fileName is already in use by an app
       const inUse = allBindings[fileName]
 
@@ -81,7 +80,6 @@ export default function BottomBar({
         setDisabled(true)
         setFileNameError(`${fileName} is in use by ${inUse}`)
       }
-
     } else if (drafts.includes(fileName)) {
       // fileName is in use by a draft blog post
       // TODO should this be true?
@@ -98,11 +96,11 @@ export default function BottomBar({
   useEffect(() => {
     // if activeTheme's name is an empty string, revert to first theme in the list
     if (themes.length > 0 && activeTheme === '') setActiveTheme(themes[0])
-    async function getTheme() {
+    async function getTheme (): Promise<void> {
       // check activeTheme's name is not an empty string before attempting to scry
       if (activeTheme !== '') {
-        const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` });
-        setPreviewCss(css);
+        const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` })
+        setPreviewCss(css)
       }
     }
     getTheme()
@@ -112,11 +110,11 @@ export default function BottomBar({
   useEffect(() => {
     if (fileName.charAt(fileName.length - 1) === '/') {
       setDisabled(true)
-      setFileNameError(`cannot end in a slash`)
+      setFileNameError('cannot end in a slash')
     } else if (fileName.charAt(0) !== '/') {
       setDisabled(true)
-      setFileNameError(`must start with a slash`)
-    } else if (allBindings[fileName]) {
+      setFileNameError('must start with a slash')
+    } else if (allBindings[fileName] !== undefined) {
       const inUse = allBindings[fileName]
       if (inUse === 'app: %blog') {
         setDisabled(false)
@@ -149,9 +147,9 @@ export default function BottomBar({
 
   // check if pals and rumors are both installed
   const palsAndRumorsInstalled = async (): Promise<boolean> => {
-    const result = await scryUrbit('blog', '/aaaah');
-    return result;
-  };
+    const result = await scryUrbit('blog', '/aaaah')
+    return result
+  }
 
   // publish post
   const handlePublish = useCallback(
@@ -165,9 +163,9 @@ export default function BottomBar({
             path: fileName,
             html: marked.parse(markdown),
             md: markdown,
-            theme: activeTheme,
-          },
-        },
+            theme: activeTheme
+          }
+        }
       })
       getAll()
 
@@ -189,7 +187,7 @@ export default function BottomBar({
             className='w-full shadow appearance-none border rounded py-2 px-3 font-mono text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             placeholder='/example/path'
             value={fileName}
-            onChange={(e) => setFileName(e.target.value)}
+            onChange={(e) => { setFileName(e.target.value) }}
             pattern='^\/.+(?!\/)'
             required
           />
@@ -203,7 +201,7 @@ export default function BottomBar({
         <select
           className='w-full rounded border-none font-mono focus:outline-none'
           value={activeTheme}
-          onChange={(e) => setActiveTheme(e.target.value)}
+          onChange={(e) => { setActiveTheme(e.target.value) }}
         >
           {themes.map((theme, i) => (
             <option value={theme} key={i}>
@@ -218,7 +216,7 @@ export default function BottomBar({
       {/* save draft button */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={!fileName || disabled}
+        disabled={fileName === '' || disabled}
         onClick={handleSaveDraft}
       >
         Save Draft
@@ -226,7 +224,7 @@ export default function BottomBar({
       {/* publish button */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={!fileName || disabled}
+        disabled={fileName === '' || disabled}
         onClick={handlePublish}
       >
         Publish
@@ -235,22 +233,24 @@ export default function BottomBar({
         {/* fullscreen editor button */}
         <button
           className='flex-1 flex items-start justify-center rounded w-full h-full text-blue-500 hover:text-blue-700'
-          onClick={() => setIsFocusMode(!isFocusMode)}
+          onClick={() => { setIsFocusMode(!isFocusMode) }}
         >
           <div className='text-left flex items-center'>
             <div className='py-3 w-5 mr-2'>
-              {isFocusMode ? (
+              {isFocusMode
+                ? (
                 <ArrowsPointingInIcon />
-              ) : (
+                  )
+                : (
                 <ArrowsPointingOutIcon />
-              )}
+                  )}
             </div>
           </div>
         </button>
         {/* show/hide preview button */}
         <button
           className='flex-1 flex items-start justify-center rounded w-full h-full text-blue-500 hover:text-blue-700'
-          onClick={() => setShowPreview(!showPreview)}
+          onClick={() => { setShowPreview(!showPreview) }}
         >
           <div className='text-left flex items-center'>
             <div className='py-3 w-5 mr-2'>

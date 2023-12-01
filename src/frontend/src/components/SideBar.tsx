@@ -1,22 +1,22 @@
-import { useState, useCallback, useEffect } from 'react'
-import { Link, useMatch, useNavigate } from 'react-router-dom'
+import React, { useState, useCallback, useEffect } from 'react'
+import { useMatch, useNavigate } from 'react-router-dom'
 import {
   TrashIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   PlusCircleIcon,
-  GlobeAltIcon,
+  GlobeAltIcon
 } from '@heroicons/react/24/outline'
 import { useStore } from '../state/base'
 import { ConfirmDeleteDraft, ConfirmUnpublish } from './Modal'
 import { api } from '../state/api'
 
-type SidebarEntry = {
+interface SidebarEntry {
   path: string
   children: string[]
 }
 
-export default function SideBar() {
+export default function SideBar (): JSX.Element {
   const drafts = useStore((state) => state.drafts)
   const pages = useStore((state) => state.pages)
   const themes = useStore((state) => state.themes)
@@ -37,27 +37,27 @@ export default function SideBar() {
   }, [pages, drafts])
 
   // main foldering logic
-  const nestPaths = (paths: string[], linkbase: string) => {
+  const nestPaths = (paths: string[], linkbase: string): SidebarEntry[] => {
     return paths
       .map((d) => ({
         path: parentPath(d),
         children: paths.filter((_d) => parentPath(_d) === parentPath(d)),
-        linkbase,
+        linkbase
       }))
-      .filter((d) => !!d)
+      // .filter((d) => !!d)
       .reduce((acc: SidebarEntry[], cur) => {
         if (acc.length === 0) return [...acc, cur]
-        if (!acc.find((d) => d.path === cur.path)) return [...acc, cur]
+        if ((acc.find((d) => d.path === cur.path)) === undefined) return [...acc, cur]
         return acc
       }, [])
       .map((path) =>
-        path && path.children && path.children.length === 1
+        path.children.length === 1
           ? { ...path, path: path.children[0] }
           : path
       )
   }
 
-  const parentPath = (path: string) => {
+  const parentPath = (path: string): string => {
     return path.split('/').slice(0, 2).join('/')
   }
 
@@ -67,13 +67,13 @@ export default function SideBar() {
   // add a unique number to the end of a duplicate fileName
   const findNextNewFileName = (
     newFileName: string,
-    files: Array<string>,
+    files: string[],
     i?: number
   ): string => {
-    if (files.includes(i ? `${newFileName}-${i}` : newFileName)) {
-      return findNextNewFileName(newFileName, files, i ? i + 1 : 1)
+    if (files.includes(i !== undefined ? `${newFileName}-${i}` : newFileName)) {
+      return findNextNewFileName(newFileName, files, i !== undefined ? i + 1 : 1)
     }
-    return i ? `${newFileName}-${i}` : `${newFileName}`
+    return i !== undefined ? `${newFileName}-${i}` : `${newFileName}`
   }
 
   // save a new draft
@@ -109,9 +109,9 @@ export default function SideBar() {
       mark: 'blog-action',
       json: {
         'delete-draft': {
-          path: toDelete,
-        },
-      },
+          path: toDelete
+        }
+      }
     })
     setShowDeleteDraftModal(false)
     getAll()
@@ -123,29 +123,29 @@ export default function SideBar() {
     await api.poke({
       app: 'blog',
       mark: 'blog-action',
-      json: { unpublish: { path: toUnpublish } },
+      json: { unpublish: { path: toUnpublish } }
     })
     setShowUnpublishModal(false)
     getAll()
   }, [])
 
   // decide which modal to show on deleting a post
-  const showModal = (linkbase: string) => {
+  const showModal = (linkbase: string): undefined => {
     switch (linkbase) {
       case '/published':
-        return setShowUnpublishModal(true)
+      { setShowUnpublishModal(true); return }
       case '/draft':
-        return setShowDeleteDraftModal(true)
+        setShowDeleteDraftModal(true)
+        break
       default:
-        return
     }
   }
 
   // does sidebar entry have children
-  const hasChildren = (entry: SidebarEntry) => entry.children.length > 1
+  const hasChildren = (entry: SidebarEntry): boolean => entry.children.length > 1
 
   // sort sidebar entries based on children
-  const sortSidebar = (a: SidebarEntry, b: SidebarEntry) => {
+  const sortSidebar = (a: SidebarEntry, b: SidebarEntry): number => {
     // a before b
     if (hasChildren(a) && !hasChildren(b)) return -1
     // b before a
@@ -158,15 +158,15 @@ export default function SideBar() {
   }
 
   // sidebar entry with base: /drafts, /published, etc.
-  type SidebarItemProps = {
+  interface SidebarItemProps {
     linkbase: string
     item: SidebarEntry
   }
 
   // sidebar item
-  const SidebarItem = ({ linkbase, item }: SidebarItemProps) => {
+  const SidebarItem = ({ linkbase, item }: SidebarItemProps): JSX.Element => {
     // e.g. /drafts/foo/bar
-    let linkto = `${linkbase}${item.path}`
+    const linkto = `${linkbase}${item.path}`
     // component state
     const [open, setOpen] = useState(false)
     const [hovered, setHovered] = useState(false)
@@ -186,8 +186,8 @@ export default function SideBar() {
             if (hasChildren(item)) return
             navigate(linkto)
           }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
+          onMouseEnter={() => { setHovered(true) }}
+          onMouseLeave={() => { setHovered(false) }}
         >
           {/* sidebar entry with no children */}
           {!hasChildren(item) && (
@@ -200,7 +200,8 @@ export default function SideBar() {
               {/* TODO move this */}
               {linkbase !== '/theme/' &&
                 hovered &&
-                (linkbase === '/published' ? (
+                (linkbase === '/published'
+                  ? (
                   <>
                     <div
                       className='w-4 cursor-pointer rounded-sm hover:text-red-500'
@@ -220,7 +221,8 @@ export default function SideBar() {
                       <TrashIcon />
                     </div>
                   </>
-                ) : (
+                    )
+                  : (
                   <div
                     className='w-4 cursor-pointer rounded-sm hover:text-red-500'
                     onClick={() => {
@@ -230,7 +232,7 @@ export default function SideBar() {
                   >
                     <TrashIcon />
                   </div>
-                ))}
+                    ))}
             </div>
           )}
           {/* sidebar entry with children */}
@@ -276,7 +278,7 @@ export default function SideBar() {
         </label>
         {/* published items */}
         {nestedPages.sort(sortSidebar).map((pub: SidebarEntry, i) => (
-          <SidebarItem linkbase={`/published`} item={pub} key={i}></SidebarItem>
+          <SidebarItem linkbase={'/published'} item={pub} key={i}></SidebarItem>
         ))}
       </ul>
       {/* drafts section */}
@@ -286,7 +288,7 @@ export default function SideBar() {
         </label>
         {/* draft items */}
         {nestedDrafts.sort(sortSidebar).map((draft: SidebarEntry, i) => (
-          <SidebarItem linkbase={`/draft`} item={draft} key={i}></SidebarItem>
+          <SidebarItem linkbase={'/draft'} item={draft} key={i}></SidebarItem>
         ))}
         <li>
           {/* new draft button */}
@@ -311,7 +313,7 @@ export default function SideBar() {
         {/* saved themes */}
         {themes.sort().map((theme: string, i) => (
           <SidebarItem
-            linkbase={`/theme/`}
+            linkbase={'/theme/'}
             item={{ path: theme, children: [] }}
             key={i}
           ></SidebarItem>
@@ -336,7 +338,7 @@ export default function SideBar() {
         <ConfirmDeleteDraft
           fileName={fileName}
           setShowModal={setShowDeleteDraftModal}
-          onConfirm={() => handleDeleteDraft(fileName)}
+          onConfirm={async () => { await handleDeleteDraft(fileName) }}
         />
       )}
       {/* unpublish draft modal */}
@@ -344,7 +346,7 @@ export default function SideBar() {
         <ConfirmUnpublish
           fileName={fileName}
           setShowModal={setShowUnpublishModal}
-          onConfirm={() => handleUnpublish(fileName)}
+          onConfirm={async () => { await handleUnpublish(fileName) }}
         />
       )}
     </div>

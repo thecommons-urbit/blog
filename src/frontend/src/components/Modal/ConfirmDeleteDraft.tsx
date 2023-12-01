@@ -1,15 +1,18 @@
-import { Modal, ModalProps } from './Modal'
+import React from 'react'
+import { Modal, type ModalProps } from './Modal'
 
 interface ConfirmDeleteDraftProps extends ModalProps {
   fileName: string
+  // TODO don't use Function as a type
+  //        (see ConfirmUnpublish)
   onConfirm: Function
 }
 
-export default function ConfirmDeleteDraft({
+export default function ConfirmDeleteDraft ({
   fileName,
   onConfirm,
-  setShowModal,
-}: ConfirmDeleteDraftProps) {
+  setShowModal
+}: ConfirmDeleteDraftProps): JSX.Element {
   return (
     <Modal>
       <h4 className='text-md font-bold pb-4'>
@@ -18,7 +21,7 @@ export default function ConfirmDeleteDraft({
       <div className='flex text-xs gap-x-2'>
         <button
           className='flex-1 bg-blue-500 hover:bg-blue-700 text-white p-2 rounded w-full'
-          onClick={() => setShowModal(false)}
+          onClick={() => { setShowModal(false) }}
         >
           Cancel
         </button>
