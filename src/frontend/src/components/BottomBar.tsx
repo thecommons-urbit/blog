@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { marked } from 'marked'
 import {
   ChevronLeftIcon,
@@ -28,7 +28,7 @@ export default function BottomBar ({
   setShowPreview,
   setFileName,
   setDisabled
-}: BottomBarProps) {
+}: BottomBarProps): JSX.Element {
   // global state / methods
   const {
     markdown,
@@ -66,7 +66,7 @@ export default function BottomBar ({
       // fileName does not start with a slash
       setDisabled(true)
       setFileNameError('must start with a slash')
-    } else if (allBindings[fileName]) {
+    } else if (allBindings[fileName] !== undefined) {
       // fileName is already in use by an app
       const inUse = allBindings[fileName]
 
@@ -96,7 +96,7 @@ export default function BottomBar ({
   useEffect(() => {
     // if activeTheme's name is an empty string, revert to first theme in the list
     if (themes.length > 0 && activeTheme === '') setActiveTheme(themes[0])
-    async function getTheme () {
+    async function getTheme (): Promise<void> {
       // check activeTheme's name is not an empty string before attempting to scry
       if (activeTheme !== '') {
         const css = await api.scry({ app: 'blog', path: `/theme/${activeTheme}` })
@@ -114,7 +114,7 @@ export default function BottomBar ({
     } else if (fileName.charAt(0) !== '/') {
       setDisabled(true)
       setFileNameError('must start with a slash')
-    } else if (allBindings[fileName]) {
+    } else if (allBindings[fileName] !== undefined) {
       const inUse = allBindings[fileName]
       if (inUse === 'app: %blog') {
         setDisabled(false)
@@ -216,7 +216,7 @@ export default function BottomBar ({
       {/* save draft button */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={!fileName || disabled}
+        disabled={fileName === '' || disabled}
         onClick={handleSaveDraft}
       >
         Save Draft
@@ -224,7 +224,7 @@ export default function BottomBar ({
       {/* publish button */}
       <button
         className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={!fileName || disabled}
+        disabled={fileName === '' || disabled}
         onClick={handlePublish}
       >
         Publish
