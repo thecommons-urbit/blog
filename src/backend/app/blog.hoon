@@ -138,7 +138,7 @@
         ::  add html page for this post to
         ::  eyre cache with added mime type
         :*  %pass  /bind  %arvo  %e
-            %set-response  (spat path)
+            %set-response  (spat `^path`[~.blog path])
             ~  %.n  %payload
             [200 ['Content-Type' 'text/html; charset=utf-8']~]
             ::  append <style> tag to html page
@@ -149,7 +149,7 @@
         ::  add <path>.md file for this post to
         ::  eyre cache with added mime type
         :*  %pass  /bind  %arvo  %e
-            %set-response  (cat 3 (spat path) '.md')
+            %set-response  (cat 3 (spat `^path`[~.blog path]) '.md')
             ~  %.n  %payload
             [200 ['Content-Type' 'text/plain; charset=utf-8']~]
             `(as-octs:mimes:^html md)
@@ -181,7 +181,7 @@
       :~  ::
           ::  add <path>.md page for this post to eyre cache
           :*  %pass  /bind  %arvo  %e
-              %set-response  (cat 3 (spat path.act) '.md')
+              %set-response  (cat 3 (spat `path`[~.blog path.act]) '.md')
               ~  %.n  %payload
               [200 ['Content-Type' 'text/plain; charset=utf-8']~]
               `(as-octs:mimes:html md.act)
@@ -189,7 +189,7 @@
           ::
           ::  add html file for this post to eyre cache
           :*  %pass  /bind  %arvo  %e
-              %set-response  (spat path.act)
+              %set-response  (spat `path`[~.blog path.act])
               ~  %.n  %payload
               [200 ['Content-Type' 'text/html; charset=utf-8']~]
               ::  append <style> tag to html page
@@ -208,8 +208,8 @@
       %+  welp
         cards
       :~  ::  remove eyre cache entries for this post
-          [%pass /bind %arvo %e %set-response `@t`(cat 3 (spat path.act) '.md') ~]
-          [%pass /bind %arvo %e %set-response (spat path.act) ~]
+          [%pass /bind %arvo %e %set-response `@t`(cat 3 (spat `path`[~.blog path.act]) '.md') ~]
+          [%pass /bind %arvo %e %set-response (spat `path`[~.blog path.act]) ~]
       ==
     ::
         %export

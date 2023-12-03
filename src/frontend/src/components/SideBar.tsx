@@ -206,7 +206,7 @@ export default function SideBar (): JSX.Element {
                     <div
                       className='w-4 cursor-pointer rounded-sm hover:text-red-500'
                       onClick={() => {
-                        window.open(item.path, '_blank')
+                        window.open(`/blog${item.path}`, '_blank')
                       }}
                     >
                       <GlobeAltIcon />
