@@ -7,7 +7,7 @@ interface PublishModalProps extends ModalProps {
 
 export default function Share ({ setShowModal, fileName }: PublishModalProps): JSX.Element {
   const [value, setValue] = useState(
-    `AAAAH I'M GONNA %blog : ${window.location.origin}${fileName}`
+    `AAAAH I'M GONNA %blog : ${window.location.origin}/blog${fileName}`
   )
   return (
     <Modal>
