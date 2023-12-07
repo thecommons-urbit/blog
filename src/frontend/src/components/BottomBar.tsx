@@ -74,17 +74,28 @@ export default function BottomBar ({
       //        in some cases you can save a draft but not publish
       if (inUse === 'app: %blog') {
         // fileName is in use by a published post
-        setDisabled(false)
-        setFileNameError(`${fileName} is in use by a blog post`)
+        if (document.location.pathname !== `/apps/blog/published${fileName}`) {
+          setDisabled(true)
+          setFileNameError(`${fileName} is in use by a published post`)
+        } else {
+          // we're viewing the published post
+          setDisabled(true)
+          setFileNameError('')
+        }
       } else {
         // fileName is in use by another app
         setDisabled(true)
         setFileNameError(`${fileName} is in use by ${inUse}`)
       }
     } else if (drafts.includes(fileName)) {
-      // fileName is in use by a draft blog post
-      setDisabled(false)
-      setFileNameError(`${fileName} is in use by a draft post`)
+      // fileName is in use by another draft blog post
+      if (document.location.pathname !== `/apps/blog/draft${fileName}`) {
+        setDisabled(true)
+        setFileNameError(`${fileName} is in use by a draft post`)
+      } else {
+        setDisabled(false)
+        setFileNameError('')
+      }
     } else {
       // no error detected
       setDisabled(false)
