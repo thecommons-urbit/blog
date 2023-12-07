@@ -24,8 +24,8 @@
 
   img {
     margin: auto;
-    max-height: 500px;
-    max-width: 650px;
+    max-height: 100%;
+    max-width: 100%;
     display: block;
   }
   '''
