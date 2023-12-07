@@ -106,32 +106,6 @@ export default function BottomBar ({
     getTheme()
   }, [activeTheme, themes])
 
-  // TODO is this duplicate code?
-  useEffect(() => {
-    if (fileName.charAt(fileName.length - 1) === '/') {
-      setDisabled(true)
-      setFileNameError('cannot end in a slash')
-    } else if (fileName.charAt(0) !== '/') {
-      setDisabled(true)
-      setFileNameError('must start with a slash')
-    } else if (allBindings[fileName] !== undefined) {
-      const inUse = allBindings[fileName]
-      if (inUse === 'app: %blog') {
-        setDisabled(false)
-        setFileNameError(`replace ${fileName}`)
-      } else {
-        setDisabled(true)
-        setFileNameError(`${fileName} is in use by ${inUse}`)
-      }
-    } else if (drafts.includes(fileName)) {
-      setDisabled(false)
-      setFileNameError(`replace ${fileName}`)
-    } else {
-      setDisabled(false)
-      setFileNameError('')
-    }
-  }, [fileName, pages])
-
   const handleSaveDraft = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault()
