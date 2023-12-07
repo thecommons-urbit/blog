@@ -10,6 +10,7 @@ import { api } from '../state/api'
 import { useStore } from '../state/base'
 import { Publish } from './Modal'
 import { scryUrbit } from '../urbit/scries'
+import { useNavigate } from 'react-router-dom'
 
 // define bottom bar state / methods
 interface BottomBarProps {
@@ -46,6 +47,7 @@ export default function BottomBar ({
   } = useStore()
 
   // local state/methods
+  const navigate = useNavigate()
   const [fileNameError, setFileNameError] = useState('')
   // 'publishModal' being the 'share to %rumors?' modal
   const [showPublishModal, setShowPublishModal] = useState(false)
@@ -153,6 +155,8 @@ export default function BottomBar ({
         }
       })
       getAll()
+      // TODO check published after getAll(), remove draft
+      navigate(`/published${fileName}`)
 
       if (await palsAndRumorsInstalled()) {
         setShowPublishModal(true)
