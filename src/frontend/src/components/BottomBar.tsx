@@ -70,11 +70,12 @@ export default function BottomBar ({
       // fileName is already in use by an app
       const inUse = allBindings[fileName]
 
+      // TODO separate setDisabled for 'Save Draft' and 'Publish' buttons
+      //        in some cases you can save a draft but not publish
       if (inUse === 'app: %blog') {
-        // fileName is in use by %blog
-        // TODO should this be true?
+        // fileName is in use by a published post
         setDisabled(false)
-        setFileNameError(`replace ${fileName}`)
+        setFileNameError(`${fileName} is in use by a blog post`)
       } else {
         // fileName is in use by another app
         setDisabled(true)
@@ -82,9 +83,8 @@ export default function BottomBar ({
       }
     } else if (drafts.includes(fileName)) {
       // fileName is in use by a draft blog post
-      // TODO should this be true?
       setDisabled(false)
-      setFileNameError(`replace ${fileName}`)
+      setFileNameError(`${fileName} is in use by a draft post`)
     } else {
       // no error detected
       setDisabled(false)
