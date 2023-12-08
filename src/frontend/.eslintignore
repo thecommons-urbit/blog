@@ -2,3 +2,4 @@
 *.json
 *.config.ts
 *.config.cjs
+/dist
