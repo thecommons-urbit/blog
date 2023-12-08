@@ -56,8 +56,11 @@ export default function BottomBar ({
 
   // update fileName
   useEffect(() => {
-    // TODO ugly
-    setFileName('/' + document.location.pathname.split('/').slice(4).join('/'))
+    if (document.location.pathname === '/apps/blog/') {
+      setFileName('/hello-world')
+    } else {
+      setFileName(`/${document.location.pathname.split('/').slice(4).join('/')}`)
+    }
   }, [document.location.pathname])
 
   // sanity-check fileName
@@ -80,7 +83,7 @@ export default function BottomBar ({
         // fileName is in use by a published post
         if (document.location.pathname !== `/apps/blog/published${fileName}`) {
           setDisabled(true)
-          setFileNameError(`${fileName} is in use by a published post`)
+          setFileNameError(`${fileName} already published`)
         } else {
           // we're viewing the published post
           setDisabled(true)
@@ -95,7 +98,7 @@ export default function BottomBar ({
       // fileName is in use by another draft blog post
       if (document.location.pathname !== `/apps/blog/draft${fileName}`) {
         setDisabled(true)
-        setFileNameError(`${fileName} is in use by a draft post`)
+        setFileNameError(`${fileName} already a draft`)
       } else {
         setDisabled(false)
         setFileNameError('')
