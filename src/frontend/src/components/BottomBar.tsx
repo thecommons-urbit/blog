@@ -10,6 +10,7 @@ import { api } from '../state/api'
 import { useStore } from '../state/base'
 import { Publish } from './Modal'
 import { scryUrbit } from '../urbit/scries'
+import { useNavigate } from 'react-router-dom'
 
 // define bottom bar state / methods
 interface BottomBarProps {
@@ -39,6 +40,8 @@ export default function BottomBar ({
     setPreviewCss,
     setActiveTheme,
     setIsFocusMode,
+    setDrafts,
+    setPosts,
     saveDraft,
     pages,
     allBindings,
@@ -46,14 +49,18 @@ export default function BottomBar ({
   } = useStore()
 
   // local state/methods
+  const navigate = useNavigate()
   const [fileNameError, setFileNameError] = useState('')
   // 'publishModal' being the 'share to %rumors?' modal
   const [showPublishModal, setShowPublishModal] = useState(false)
 
   // update fileName
   useEffect(() => {
-    // TODO ugly
-    setFileName('/' + document.location.pathname.split('/').slice(4).join('/'))
+    if (document.location.pathname === '/apps/blog/') {
+      setFileName('/hello-world')
+    } else {
+      setFileName(`/${document.location.pathname.split('/').slice(4).join('/')}`)
+    }
   }, [document.location.pathname])
 
   // sanity-check fileName
@@ -70,21 +77,32 @@ export default function BottomBar ({
       // fileName is already in use by an app
       const inUse = allBindings[fileName]
 
+      // TODO separate setDisabled for 'Save Draft' and 'Publish' buttons
+      //        in some cases you can save a draft but not publish
       if (inUse === 'app: %blog') {
-        // fileName is in use by %blog
-        // TODO should this be true?
-        setDisabled(false)
-        setFileNameError(`replace ${fileName}`)
+        // fileName is in use by a published post
+        if (document.location.pathname !== `/apps/blog/published${fileName}`) {
+          setDisabled(true)
+          setFileNameError(`${fileName} already published`)
+        } else {
+          // we're viewing the published post
+          setDisabled(true)
+          setFileNameError('')
+        }
       } else {
         // fileName is in use by another app
         setDisabled(true)
         setFileNameError(`${fileName} is in use by ${inUse}`)
       }
     } else if (drafts.includes(fileName)) {
-      // fileName is in use by a draft blog post
-      // TODO should this be true?
-      setDisabled(false)
-      setFileNameError(`replace ${fileName}`)
+      // fileName is in use by another draft blog post
+      if (document.location.pathname !== `/apps/blog/draft${fileName}`) {
+        setDisabled(true)
+        setFileNameError(`${fileName} already a draft`)
+      } else {
+        setDisabled(false)
+        setFileNameError('')
+      }
     } else {
       // no error detected
       setDisabled(false)
@@ -106,32 +124,6 @@ export default function BottomBar ({
     getTheme()
   }, [activeTheme, themes])
 
-  // TODO is this duplicate code?
-  useEffect(() => {
-    if (fileName.charAt(fileName.length - 1) === '/') {
-      setDisabled(true)
-      setFileNameError('cannot end in a slash')
-    } else if (fileName.charAt(0) !== '/') {
-      setDisabled(true)
-      setFileNameError('must start with a slash')
-    } else if (allBindings[fileName] !== undefined) {
-      const inUse = allBindings[fileName]
-      if (inUse === 'app: %blog') {
-        setDisabled(false)
-        setFileNameError(`replace ${fileName}`)
-      } else {
-        setDisabled(true)
-        setFileNameError(`${fileName} is in use by ${inUse}`)
-      }
-    } else if (drafts.includes(fileName)) {
-      setDisabled(false)
-      setFileNameError(`replace ${fileName}`)
-    } else {
-      setDisabled(false)
-      setFileNameError('')
-    }
-  }, [fileName, pages])
-
   const handleSaveDraft = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault()
@@ -141,6 +133,7 @@ export default function BottomBar ({
       // TODO review frontend/backend state interaction
       //        backend should actively update frontend
       getAll()
+      console.log('drafts on saveDraft: ', drafts)
     },
     [fileName, markdown]
   )
@@ -167,8 +160,23 @@ export default function BottomBar ({
           }
         }
       })
-      getAll()
 
+      if (drafts.includes(fileName)) {
+        await api.poke({
+          app: 'blog',
+          mark: 'blog-action',
+          json: {
+            'delete-draft': {
+              path: fileName
+            }
+          }
+        })
+      }
+
+      setPosts(pages.filter(item => item !== fileName))
+      setDrafts(drafts.filter(item => item !== fileName))
+      navigate(`/published${fileName}`)
+      getAll()
       if (await palsAndRumorsInstalled()) {
         setShowPublishModal(true)
       } else {

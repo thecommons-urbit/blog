@@ -1,4 +1,6 @@
 import React from 'react'
+import { useStore } from '../../state/base'
+import { useNavigate } from 'react-router-dom'
 import { Modal, type ModalProps } from './Modal'
 
 interface ConfirmUnpublishProps extends ModalProps {
@@ -14,6 +16,9 @@ export default function ConfirmUnpublish ({
   onConfirm,
   setShowModal
 }: ConfirmUnpublishProps): JSX.Element {
+  const { setMarkdown } = useStore()
+  const navigate = useNavigate()
+
   return (
     <Modal>
       <h4 className='text-md font-bold pb-4'>
@@ -31,6 +36,8 @@ export default function ConfirmUnpublish ({
           onClick={() => {
             onConfirm()
             setShowModal(false)
+            setMarkdown('')
+            navigate('')
           }}
         >
           Delete
