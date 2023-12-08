@@ -155,7 +155,20 @@ export default function BottomBar ({
         }
       })
       getAll()
-      // TODO check published after getAll(), remove draft
+
+      if (drafts.includes(fileName)) {
+        api.poke({
+          app: 'blog',
+          mark: 'blog-action',
+          json: {
+            'delete-draft': {
+              path: fileName
+            }
+          }
+        })
+        getAll()
+      }
+
       navigate(`/published${fileName}`)
 
       if (await palsAndRumorsInstalled()) {
