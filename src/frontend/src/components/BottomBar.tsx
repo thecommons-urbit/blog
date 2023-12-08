@@ -40,6 +40,8 @@ export default function BottomBar ({
     setPreviewCss,
     setActiveTheme,
     setIsFocusMode,
+    setDrafts,
+    setPosts,
     saveDraft,
     pages,
     allBindings,
@@ -168,10 +170,10 @@ export default function BottomBar ({
         })
       }
 
-      getAll()
+      setPosts(pages.filter(item => item !== fileName))
+      setDrafts(drafts.filter(item => item !== fileName))
       navigate(`/published${fileName}`)
-      console.log('drafts on handlePublish: ', drafts)
-
+      getAll()
       if (await palsAndRumorsInstalled()) {
         setShowPublishModal(true)
       } else {

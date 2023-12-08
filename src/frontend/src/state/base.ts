@@ -18,6 +18,8 @@ export interface State {
   setPreviewCss: (s: string) => void
   setActiveTheme: (s: string) => void
   setIsFocusMode: (b: boolean) => void
+  setDrafts: (a: string[]) => void
+  setPosts: (a: string[]) => void
   // scries
   getAll: () => Promise<void>
   getDraft: (s: string) => Promise<void>
@@ -27,7 +29,7 @@ export interface State {
   saveTheme: (s: string, t: string) => Promise<void>
 }
 
-export const useStore = create<State>()((set) => ({
+export const useStore = create<State>()((set, get) => ({
   // state defaults
   markdown: defaultText,
   previewCss: '',
@@ -44,7 +46,8 @@ export const useStore = create<State>()((set) => ({
   setPreviewCss: (s) => { set(() => ({ previewCss: s })) },
   setActiveTheme: (s) => { set(() => ({ activeTheme: s })) },
   setIsFocusMode: (b) => { set(() => ({ isFocusMode: b })) },
-
+  setDrafts: (a) => { set(() => ({ drafts: a })) },
+  setPosts: (a) => { set(() => ({ pages: a })) },
   // scries
   // TODO split getAll() into four scries
   getAll: async () => {
@@ -52,18 +55,17 @@ export const useStore = create<State>()((set) => ({
     const drafts = await api.scry({ app: 'blog', path: '/drafts' })
     const themes = await api.scry({ app: 'blog', path: '/themes' })
     const allBindings = await api.scry({ app: 'blog', path: '/all-bindings' })
-
     set({ drafts, pages, allBindings, themes })
   },
   getDraft: async (s) => {
     const draft = await api.scry({ app: 'blog', path: `/draft${s}` })
     set({ markdown: draft })
   },
+  // TODO rethink 'page' terminology
   getPage: async (s) => {
     const page = await api.scry({ app: 'blog', path: `/md${s}` })
     set({ markdown: page })
   },
-
   // pokes
   saveDraft: async (fileName: string, markdown: string) => {
     await api.poke({
