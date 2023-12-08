@@ -128,6 +128,7 @@ export default function BottomBar ({
       // TODO review frontend/backend state interaction
       //        backend should actively update frontend
       getAll()
+      console.log('drafts on saveDraft: ', drafts)
     },
     [fileName, markdown]
   )
@@ -154,10 +155,9 @@ export default function BottomBar ({
           }
         }
       })
-      getAll()
 
       if (drafts.includes(fileName)) {
-        api.poke({
+        await api.poke({
           app: 'blog',
           mark: 'blog-action',
           json: {
@@ -166,10 +166,11 @@ export default function BottomBar ({
             }
           }
         })
-        getAll()
       }
 
+      getAll()
       navigate(`/published${fileName}`)
+      console.log('drafts on handlePublish: ', drafts)
 
       if (await palsAndRumorsInstalled()) {
         setShowPublishModal(true)

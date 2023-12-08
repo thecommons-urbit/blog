@@ -79,7 +79,7 @@ export default function SideBar (): JSX.Element {
   // save a new draft
   const handleNewDraft = useCallback(async () => {
     // create a unique name for the draft
-    const newDraftName = findNextNewFileName('/new-draft', drafts)
+    const newDraftName = findNextNewFileName('/new-draft', drafts.concat(pages))
 
     // save new draft
     saveDraft(newDraftName, '')
