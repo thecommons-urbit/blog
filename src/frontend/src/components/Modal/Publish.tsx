@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Modal, type ModalProps } from './Modal'
 
 interface PublishModalProps extends ModalProps {
@@ -9,6 +10,8 @@ export default function Share ({ setShowModal, fileName }: PublishModalProps): J
   const [value, setValue] = useState(
     `AAAAH I'M GONNA %blog : ${window.location.origin}${fileName}`
   )
+  const navigate = useNavigate()
+
   return (
     <Modal>
       <h4 className='text-md font-bold mb-4'>
@@ -39,6 +42,7 @@ export default function Share ({ setShowModal, fileName }: PublishModalProps): J
             onClick={(e) => {
               e.preventDefault()
               setShowModal(false)
+              navigate(`/published${fileName}`)
             }}
           >
             Close
