@@ -175,12 +175,12 @@ export default function BottomBar ({
 
       setPosts(pages.filter(item => item !== fileName))
       setDrafts(drafts.filter(item => item !== fileName))
-      navigate(`/published${fileName}`)
       getAll()
       if (await palsAndRumorsInstalled()) {
         setShowPublishModal(true)
       } else {
         setShowPublishModal(false)
+        navigate(`/published${fileName}`)
       }
     },
     [fileName, markdown, activeTheme]
