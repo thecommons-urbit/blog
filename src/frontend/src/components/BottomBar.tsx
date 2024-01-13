@@ -86,7 +86,7 @@ export default function BottomBar ({
           setFileNameError(`${fileName} already published`)
         } else {
           // we're viewing the published post
-          setDisabled(true)
+          setDisabled(false)
           setFileNameError('')
         }
       } else {
@@ -221,18 +221,16 @@ export default function BottomBar ({
           <code>%theme</code>
         </p>
       </div>
-      {/* save draft button */}
       <button
-        className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={fileName === '' || disabled}
+        className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray active:bg-darkergray disabled:opacity-50 font-sans'
+        disabled={disabled || fileName === '' || document.location.pathname.startsWith('/apps/blog/published/')}
         onClick={handleSaveDraft}
       >
         Save Draft
       </button>
-      {/* publish button */}
       <button
-        className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={fileName === '' || disabled}
+        className={'col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray active:bg-darkergray disabled:opacity-50 font-sans'}
+        disabled={disabled || fileName === ''}
         onClick={handlePublish}
       >
         Publish

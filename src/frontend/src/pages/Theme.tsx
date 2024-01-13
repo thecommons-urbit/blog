@@ -75,14 +75,14 @@ export default function Theme (): JSX.Element {
         />
         {/* delete theme */}
         <button
-          className='flex-1 flex items-center justify-center bg-darkgray font-sans text-white p-2 rounded w-full disabled:opacity-50'
+          className='flex-1 flex items-center justify-center bg-darkgray active:bg-darkergray font-sans text-white p-2 rounded w-full disabled:opacity-50'
           onClick={() => { setShowDeleteThemeModal(true) }}
         >
           Delete Theme
         </button>
         {/* save theme */}
         <button
-          className='flex-1 flex items-center justify-center bg-darkgray text-white font-sans p-2 rounded w-full disabled:opacity-50'
+          className='flex-1 flex items-center justify-center bg-darkgray active:bg-darkergray text-white font-sans p-2 rounded w-full disabled:opacity-50'
           onClick={handleSaveTheme}
           disabled={name === ''}
         >
