@@ -170,7 +170,6 @@
     ::  ~&  >>  "attempting {<mark>} poke: {<act>}"
     ?-    -.act
         %publish
-      ~&  >>  "%publish"
       ::  XX sss; remove on transition to %4
       =^    cards
           pub-paths
