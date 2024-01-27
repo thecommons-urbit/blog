@@ -176,7 +176,11 @@ export default function BottomBar ({
       setPosts(pages.filter(item => item !== fileName))
       setDrafts(drafts.filter(item => item !== fileName))
       getAll()
-      if (await palsAndRumorsInstalled()) {
+
+      if (
+        !document.location.pathname.startsWith('/apps/blog/published/') &&
+        await palsAndRumorsInstalled()
+      ) {
         setShowPublishModal(true)
       } else {
         setShowPublishModal(false)
