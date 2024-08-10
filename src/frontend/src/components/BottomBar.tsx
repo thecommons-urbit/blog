@@ -190,6 +190,11 @@ export default function BottomBar ({
     [fileName, markdown, activeTheme]
   )
 
+  const publishButtonText =
+    document.location.pathname.startsWith('/apps/blog/published/')
+      ? 'Publish Edits'
+      : 'Publish'
+
   return (
     <div className='w-full h-full grid gap-x-4 grid-cols-12 items-start'>
       {/* filename input */}
@@ -237,7 +242,7 @@ export default function BottomBar ({
         disabled={disabled || fileName === ''}
         onClick={handlePublish}
       >
-        Publish
+        { publishButtonText }
       </button>
       <div className='col-span-1 flex flex-row h-full items-center justify-center'>
         {/* fullscreen editor button */}
