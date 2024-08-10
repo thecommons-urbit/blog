@@ -86,7 +86,7 @@ export default function BottomBar ({
           setFileNameError(`${fileName} already published`)
         } else {
           // we're viewing the published post
-          setDisabled(true)
+          setDisabled(false)
           setFileNameError('')
         }
       } else {
@@ -176,7 +176,11 @@ export default function BottomBar ({
       setPosts(pages.filter(item => item !== fileName))
       setDrafts(drafts.filter(item => item !== fileName))
       getAll()
-      if (await palsAndRumorsInstalled()) {
+
+      if (
+        !document.location.pathname.startsWith('/apps/blog/published/') &&
+        await palsAndRumorsInstalled()
+      ) {
         setShowPublishModal(true)
       } else {
         setShowPublishModal(false)
@@ -185,6 +189,11 @@ export default function BottomBar ({
     },
     [fileName, markdown, activeTheme]
   )
+
+  const publishButtonText =
+    document.location.pathname.startsWith('/apps/blog/published/')
+      ? 'Publish Edits'
+      : 'Publish'
 
   return (
     <div className='w-full h-full grid gap-x-4 grid-cols-12 items-start'>
@@ -221,21 +230,19 @@ export default function BottomBar ({
           <code>%theme</code>
         </p>
       </div>
-      {/* save draft button */}
       <button
-        className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={fileName === '' || disabled}
+        className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray active:bg-darkergray disabled:opacity-50 font-sans'
+        disabled={disabled || fileName === '' || document.location.pathname.startsWith('/apps/blog/published/')}
         onClick={handleSaveDraft}
       >
         Save Draft
       </button>
-      {/* publish button */}
       <button
-        className='col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray disabled:opacity-50 font-sans'
-        disabled={fileName === '' || disabled}
+        className={'col-span-2 flex-1 flex items-center justify-center text-white px-2 py-3 rounded w-full bg-darkgray active:bg-darkergray disabled:opacity-50 font-sans'}
+        disabled={disabled || fileName === ''}
         onClick={handlePublish}
       >
-        Publish
+        { publishButtonText }
       </button>
       <div className='col-span-1 flex flex-row h-full items-center justify-center'>
         {/* fullscreen editor button */}
