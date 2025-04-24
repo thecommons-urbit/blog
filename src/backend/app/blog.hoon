@@ -384,7 +384,7 @@
           %scry            [%s '%scry']
           %name            [%s '%name']
           %four-oh-four    [%s '%four-oh-four']
-          ::  XX minimum-viable eauth compatibilty
+          ::  minimum-viable eauth compatibilty
           %eauth           [%s '%eauth']
           ::  410k
           %host            [%s '%host']
