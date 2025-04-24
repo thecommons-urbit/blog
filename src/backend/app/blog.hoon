@@ -386,7 +386,11 @@
           %four-oh-four    [%s '%four-oh-four']
           ::  XX minimum-viable eauth compatibilty
           %eauth           [%s '%eauth']
+          ::  410k
           %host            [%s '%host']
+          %boot            [%s '%boot']
+          %ip              [%s '%ip']
+          %sponsor         [%s '%sponsor']
         ==
   ==  ::  end of path branches
 ::
