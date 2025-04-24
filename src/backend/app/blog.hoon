@@ -386,8 +386,8 @@
           %four-oh-four    [%s '%four-oh-four']
           ::  minimum-viable eauth compatibilty
           %eauth           [%s '%eauth']
-          ::  410k
           %host            [%s '%host']
+          ::  410k
           %boot            [%s '%boot']
           %ip              [%s '%ip']
           %sponsor         [%s '%sponsor']
