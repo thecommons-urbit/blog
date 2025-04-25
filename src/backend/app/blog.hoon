@@ -384,9 +384,13 @@
           %scry            [%s '%scry']
           %name            [%s '%name']
           %four-oh-four    [%s '%four-oh-four']
-          ::  XX minimum-viable eauth compatibilty
+          ::  minimum-viable eauth compatibilty
           %eauth           [%s '%eauth']
           %host            [%s '%host']
+          ::  410k
+          %boot            [%s '%boot']
+          %ip              [%s '%ip']
+          %sponsor         [%s '%sponsor']
         ==
   ==  ::  end of path branches
 ::

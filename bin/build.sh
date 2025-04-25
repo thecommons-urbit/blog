@@ -83,7 +83,7 @@ VERSION_MINOR=2
 VERSION_PATCH=5
 VERSION_FULL="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-DEFAULT_KELVIN=411
+DEFAULT_KELVIN=410
 DEFAULT_GLOB_HASH=0v6.db3ho.1jsm4.h4hhs.3tg60.ndrbe
 DEFAULT_DISTRIBUTOR="dister-bonbud-macryg"
 DEFAULT_GLOB_URL="https://raw.githubusercontent.com/thecommons-urbit/blog/develop/glob/v$VERSION_FULL.glob"
