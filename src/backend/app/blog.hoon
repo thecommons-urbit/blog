@@ -194,7 +194,7 @@
               [200 ['Content-Type' 'text/html; charset=utf-8']~]
               ::  append <style> tag to html page
               =/  tem=@t  (~(gut by themes) theme.act '')
-              `(as-octs:mimes:html (cat 3 html.act (add-style:blog-lib tem)))
+              `(as-octs:mimes:html (cat 3 (cat 3 (add-header:blog-lib path.act) html.act) (add-style:blog-lib tem)))
       ==  ==
     ::
         %unpublish
